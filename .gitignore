@@ -4,3 +4,4 @@ documentation/
 *.mp3
 credentials.json
 node_modules/
+watsonAPI.json
