@@ -1,5 +1,5 @@
 {
-  "name": "interventions",
+  "name": "fitter-happier",
   "version": "1.0.0",
   "description": "Jenna\\'s interventions",
   "main": "index.js",
@@ -17,10 +17,8 @@
   "license": "ISC",
   "dependencies": {
     "@google-cloud/text-to-speech": "^0.5.1",
-    "install": "^0.12.2",
     "node-schedule": "^1.3.2",
     "nodemailer": "^5.1.1",
-    "npm": "^6.9.0",
     "play-sound": "^1.1.3",
     "suncalc": "^1.8.0"
   }

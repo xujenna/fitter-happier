@@ -21,12 +21,12 @@ async function say(something){
 
     arrayTranscript.forEach((d,i) =>{
         var sayThis = d.replace(/["]+/g, '\"');
-        playlist.push('output'+i+'.mp3');
+        playlist.push('output'+i+'.wav');
 
         const request = {
             input: {text: sayThis},
             voice: {languageCode: 'en-US', ssmlGender: 'NEUTRAL'},
-            audioConfig: {audioEncoding: 'MP3'},
+            audioConfig: {audioEncoding: 'LINEAR16'},
         };
         // console.log(d);
     
@@ -38,7 +38,7 @@ async function say(something){
             }
         
             // Write the binary audio content to a local file
-            fs.writeFile('output'+i+'.mp3', response.audioContent, 'binary', err => {
+            fs.writeFile('output'+i+'.wav', response.audioContent, 'binary', err => {
             if (err) {
                 console.error('ERROR:', err);
                 return;
