@@ -5,3 +5,6 @@ documentation/
 credentials.json
 node_modules/
 watsonAPI.json
+package-lock.json
+selfcare-bot-firebase-adminsdk-x1k54-e7e3675a58.json
+fitter-happier-233800-f1f8ee15800c.json
