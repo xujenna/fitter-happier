@@ -10,26 +10,26 @@ var schedule = require('node-schedule');
 var sunTimes = SunCalc.getTimes(new Date(), 40.7, -74);
 
 var sunTimesRule = new schedule.RecurrenceRule();
-sunTimesRule.hour = 9;
-sunTimesRule.minute = 0;
+sunTimesRule.hour = 11;
+sunTimesRule.minute = 10;
+var sunSalutationRule = new schedule.RecurrenceRule();
+var sweetLightRule = new schedule.RecurrenceRule();
+
 
 schedule.scheduleJob(sunTimesRule, function(sunTimes) {
     sunTimes = SunCalc.getTimes(new Date(), 40.7, -74)
+    // daily noonday walk
+    sunSalutationRule.hour = sunTimes.solarNoon.getHours();
+    sunSalutationRule.minute = new Date(sunTimes.solarNoon - (10 * 60000)).getMinutes();
+    sweetLightRule.hour = sunTimes.goldenHour.getHours();
+    sweetLightRule.minute = new Date(sunTimes.goldenHour - (10 * 60000)).getMinutes();
 });
-
-// daily noonday walk
-var sunSalutationRule = new schedule.RecurrenceRule();
-sunSalutationRule.hour = sunTimes.solarNoon.getHours();
-sunSalutationRule.minute = new Date(sunTimes.solarNoon - (10 * 60000));
 
 schedule.scheduleJob(sunSalutationRule, function(){
     textToSpeech.say("Go out for your sun salutation.")
 })
 
 // daily step goal completion
-var sweetLightRule = new schedule.RecurrenceRule();
-sweetLightRule.hour = sunTimes.goldenHour.getHours();
-sweetLightRule.minute = new Date(sunTimes.goldenHour - (10 * 60000));
 
 schedule.scheduleJob(sweetLightRule, function(){
     textToSpeech.say("Sweet light starts in ten minutes. Go out and meet your step goal.")
@@ -67,7 +67,7 @@ database.predictionsRef.on("child_added", function(snapshot){
         if(fatiguePrediction > 3.75){
             fatigueIntervention(fatiguePrediction, timestamp, sunTimes);
         }
-        else if(moralePrediction < 2.75){
+        else if(moralePrediction < 2.9){
             moraleIntervention(moralePrediction, timestamp, sunTimes);
         }
     }
