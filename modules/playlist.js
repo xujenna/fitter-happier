@@ -26,7 +26,7 @@ function addToPlayQueue(file, callback) {
 
 function playFile(file, playingFromQueue) {
     // play file with callback
-    player.play(file, { aplay: ['-D', 'bluealsa:HCI=hci0,DEV=00:00:00:00:65:12,PROFILE=a2dp'], timeout: playingFromQueue ? PLAYLIST_DELAY : 0 }, onPlayDone);
+    player.play(file, { aplay: ['-D', 'bluealsa:HCI=hci0,DEV=A0:E9:DB:06:A5:A7,PROFILE=a2dp'], timeout: playingFromQueue ? PLAYLIST_DELAY : 0 }, onPlayDone);
     
     // remove first file from queue (just played)
     playQueue.shift();

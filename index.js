@@ -6,35 +6,39 @@ const emailer = require('./modules/emailer');
 var schedule = require('node-schedule');
 
 // scheduler doc https://www.npmjs.com/package/node-schedule?fbclid=IwAR1CIFKpVSoSLSwzXNzwfvVtRK1n5OWv24tpjC2BNTK4mZx1jL4vy2Zi2eo
-// get daily sun times
-var sunTimes = SunCalc.getTimes(new Date(), 40.7, -74);
 
+
+// get daily sun times
 var sunTimesRule = new schedule.RecurrenceRule();
 sunTimesRule.hour = 11;
-sunTimesRule.minute = 10;
-var sunSalutationRule = new schedule.RecurrenceRule();
-var sweetLightRule = new schedule.RecurrenceRule();
-
+sunTimesRule.minute = 47;
 
 schedule.scheduleJob(sunTimesRule, function(sunTimes) {
-    sunTimes = SunCalc.getTimes(new Date(), 40.7, -74)
+    var sunTimes = SunCalc.getTimes(new Date(), 40.7, -74)
     // daily noonday walk
+    setAlarms(sunTimes)
+
+});
+
+function setAlarms(sunTimes){
+    var sunSalutationRule = new schedule.RecurrenceRule();
+    var sweetLightRule = new schedule.RecurrenceRule();
     sunSalutationRule.hour = sunTimes.solarNoon.getHours();
     sunSalutationRule.minute = new Date(sunTimes.solarNoon - (10 * 60000)).getMinutes();
     sweetLightRule.hour = sunTimes.goldenHour.getHours();
     sweetLightRule.minute = new Date(sunTimes.goldenHour - (10 * 60000)).getMinutes();
-});
 
-schedule.scheduleJob(sunSalutationRule, function(){
-    textToSpeech.say("Go out for your sun salutation.")
-})
-
-// daily step goal completion
-
-schedule.scheduleJob(sweetLightRule, function(){
-    textToSpeech.say("Sweet light starts in ten minutes. Go out and meet your step goal.")
-})
-
+    schedule.scheduleJob(sunSalutationRule, function(){
+        textToSpeech.say("Go out for your sun salutation.")
+    })
+    
+    // daily step goal completion
+    
+    schedule.scheduleJob(sweetLightRule, function(){
+        textToSpeech.say("Sweet light starts in ten minutes. Go out and meet your step goal.")
+    })
+    
+}
 // other rituals
 
 
