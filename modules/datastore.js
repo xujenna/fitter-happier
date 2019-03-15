@@ -10,11 +10,14 @@ admin.initializeApp({
 var db = admin.database();
 var predictionsRef = db.ref("predictions");
 var interventionsRef = db.ref("interventions");
+var ritualsRef = db.ref("rituals");
+
 // https://firebase.google.com/docs/database/admin/save-data
 
 
 // Export db references
 module.exports = {
     predictionsRef: predictionsRef,
-    interventionsRef: interventionsRef
+    interventionsRef: interventionsRef,
+    ritualsRef: ritualsRef
 }

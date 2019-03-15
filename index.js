@@ -4,42 +4,63 @@ const database = require('./modules/datastore');
 const textToSpeech = require('./modules/textToSpeech');
 const emailer = require('./modules/emailer');
 var schedule = require('node-schedule');
+const rituals = require('./rituals.json')
 
 // scheduler doc https://www.npmjs.com/package/node-schedule?fbclid=IwAR1CIFKpVSoSLSwzXNzwfvVtRK1n5OWv24tpjC2BNTK4mZx1jL4vy2Zi2eo
 
 
 // get daily sun times
 var sunTimesRule = new schedule.RecurrenceRule();
-sunTimesRule.hour = 11;
-sunTimesRule.minute = 47;
+sunTimesRule.hour = 10;
+sunTimesRule.minute = 00;
 
 schedule.scheduleJob(sunTimesRule, function(sunTimes) {
     var sunTimes = SunCalc.getTimes(new Date(), 40.7, -74)
-    // daily noonday walk
     setAlarms(sunTimes)
-
 });
 
 function setAlarms(sunTimes){
+    // daily noonday walk
     var sunSalutationRule = new schedule.RecurrenceRule();
-    var sweetLightRule = new schedule.RecurrenceRule();
     sunSalutationRule.hour = sunTimes.solarNoon.getHours();
-    sunSalutationRule.minute = new Date(sunTimes.solarNoon - (10 * 60000)).getMinutes();
-    sweetLightRule.hour = sunTimes.goldenHour.getHours();
-    sweetLightRule.minute = new Date(sunTimes.goldenHour - (10 * 60000)).getMinutes();
-
+    sunSalutationRule.minute = new Date(sunTimes.solarNoon - (15 * 60000)).getMinutes();
+    console.log("sun salutation: " + sunSalutationRule.hour + ":"+sunSalutationRule.minute)
     schedule.scheduleJob(sunSalutationRule, function(){
         textToSpeech.say("Go out for your sun salutation.")
     })
-    
+
     // daily step goal completion
-    
+    var sweetLightRule = new schedule.RecurrenceRule();
+    sweetLightRule.hour = sunTimes.goldenHour.getHours();
+    sweetLightRule.minute = new Date(sunTimes.goldenHour - (15 * 60000)).getMinutes();
+    console.log("sweet light: " + sweetLightRule.hour + ":"+sweetLightRule.minute)
     schedule.scheduleJob(sweetLightRule, function(){
         textToSpeech.say("Sweet light starts in ten minutes. Go out and meet your step goal.")
     })
-    
+
+    // random question
+    var randomQuestionRule = new schedule.RecurrenceRule();
+    let randomHour = parseInt(sunTimes.azimuth.toString().split('').pop());
+    randomQuestionRule.hour = sunTimes.night.getHours() - randomHour;
+    randomQuestionRule.minute = sunTimes.night.getMinutes();
+
+    console.log("random question: " + randomQuestionRule.hour + ":"+randomQuestionRule.minute)
+
+    schedule.scheduleJob(randomQuestionRule, function(){
+        let randomNum = Math.round(Math.random() * (rituals['social']['questions'].length - 1))
+        let randomQ = rituals['social']['questions'][randomNum]
+
+        textToSpeech.say("Count to " +randomNum+ " people and ask them, " +randomQ)
+
+        emailer.emailContent(("Question for person #" +randomNum), randomQ)
+
+        database.ritualsRef.push().set({
+            timestamp: + new Date() / 1000,
+            ritual: "random question",
+            content: randomQ
+        })
+    })
 }
-// other rituals
 
 
 // load interventions
@@ -55,7 +76,6 @@ var exercise = require('./exercises.json');
 const moraleInterventions = [poetry]
 
 
-
 database.predictionsRef.on("child_added", function(snapshot){
     var newPost = snapshot.val();
     var fatiguePrediction = newPost.LSTM_fatigue_prediction;
@@ -63,29 +83,31 @@ database.predictionsRef.on("child_added", function(snapshot){
     var moralePrediction = newPost.LSTM_morale_prediction;
     var stressPrediction = newPost.LSTM_stress_prediction;
     var timestamp = newPost.timestamp;
-
+    
     var currentTime = + new Date();
-    var sunTimes = SunCalc.getTimes(currentTime, 40.7, -74)
+    // var sunTimes = SunCalc.getTimes(currentTime, 40.7, -74)
 
     if((currentTime / 1000) - timestamp <= 3700){
+            console.log(newPost)
+
         if(fatiguePrediction > 3.75){
-            fatigueIntervention(fatiguePrediction, timestamp, sunTimes);
+            fatigueIntervention(fatiguePrediction, timestamp);
         }
-        else if(moralePrediction < 2.9){
-            moraleIntervention(moralePrediction, timestamp, sunTimes);
+        else if(moralePrediction < 2.95){
+            moraleIntervention(moralePrediction, timestamp);
         }
     }
 });
 
 
-function fatigueIntervention(prediction, timestamp, sunTimes){
+function fatigueIntervention(prediction, timestamp){
     console.log("Your fatigue prediction is "+prediction+ ". You should take a walk.")
     textToSpeech.say("You should take a walk.")
 
     // interventionsRef.push().set(interventionObjTK)
 }
 
-function moraleIntervention(prediction, timestamp, sunTimes){
+function moraleIntervention(prediction, timestamp){
     console.log("Your morale prediction is "+prediction+ ".\n")
 
     // switch (Math.round(Math.random() * moraleInterventions.length)) {
