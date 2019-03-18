@@ -1,12 +1,6 @@
-mood-predictions-firebase-adminsdk-0ns22-7a7b9f250c.json
+credentials/
 documentation/
 *.wav
 *.mp3
-credentials.json
 node_modules/
-watsonAPI.json
 package-lock.json
-selfcare-bot-firebase-adminsdk-x1k54-e7e3675a58.json
-fitter-happier-233800-f1f8ee15800c.json
-assistant.json
-device.json

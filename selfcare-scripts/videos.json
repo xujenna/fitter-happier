@@ -1,0 +1,41 @@
+{
+    "morale": 
+        {
+            "title": "youtube vids for morale",
+            "script": [
+                "https://www.youtube.com/watch?v=eYHE7UIVpTs&index=2&list=FLHnheo7Xj-o-8DvNdMmPDxg&t=0s",
+                "https://www.youtube.com/watch?v=dpZTZ0J5iZc&t=0s&list=PLtmzdzCeRsyEgdpuu52awPQkfWZpK-geU&index=9",
+                "https://www.youtube.com/watch?v=jbkSRLYSojo&list=FLHnheo7Xj-o-8DvNdMmPDxg&index=16&t=0s",
+                "https://www.youtube.com/watch?v=LrCHz1gwzTo&list=FLHnheo7Xj-o-8DvNdMmPDxg&index=18&t=0s",
+                "https://www.youtube.com/watch?v=5z1z4MY89X4&list=PLtmzdzCeRsyEgdpuu52awPQkfWZpK-geU&index=11&t=0s",
+                "https://www.youtube.com/watch?v=jHPQGsEqhAM&t=0s&list=PLtmzdzCeRsyEgdpuu52awPQkfWZpK-geU&index=6",
+                "https://www.youtube.com/watch?v=-SyBR-M2YvU&list=FLHnheo7Xj-o-8DvNdMmPDxg&index=106&t=0s",
+                "https://www.youtube.com/watch?v=xuCn8ux2gbs&list=FLHnheo7Xj-o-8DvNdMmPDxg&index=9",
+                "https://www.youtube.com/watch?v=OFzXaFbxDcM&list=FLHnheo7Xj-o-8DvNdMmPDxg&index=37&t=0s",
+                "https://www.youtube.com/watch?v=TTAU7lLDZYU&t=0s&list=PL67y-alyKlu812gNQUueDc1cq33cVqZr_&index=11",
+                "https://www.youtube.com/watch?v=M5ThrZrWjpU&list=PLtmzdzCeRsyEgdpuu52awPQkfWZpK-geU&index=2",
+                "https://www.youtube.com/watch?v=0fKBhvDjuy0",
+                "https://66.media.tumblr.com/6830e55989bff3da552db5e684d9e72a/tumblr_onf2u7LHBP1v9m0i0o1_500.jpg"
+            ]
+        },
+    "stress":
+        {
+            "title": "youtube vids for stress",
+            "script": [
+                "https://www.youtube.com/watch?v=B0JlIlntEQY",
+                "https://www.youtube.com/watch?v=g6TTAfG-xcI",
+                "https://www.youtube.com/watch?v=EcD_Y838DXA&index=83&list=FLHnheo7Xj-o-8DvNdMmPDxg&t=0s",
+                "https://www.youtube.com/watch?v=gP9XCp_oiNQ&list=FLHnheo7Xj-o-8DvNdMmPDxg&index=4&t=0s",
+                "https://www.youtube.com/watch?v=Us9n_1ZCT78",
+                "https://www.youtube.com/watch?v=cjpgY6_BdwM&t=917s",
+                "https://www.youtube.com/watch?v=kdynB8yhxag",
+                "https://www.youtube.com/watch?v=582biz81V48",
+                "https://www.youtube.com/watch?v=DRtWZwYCW0A&index=81&list=FLHnheo7Xj-o-8DvNdMmPDxg&t=0s",
+                "https://www.youtube.com/watch?v=cJ1SJD4XWZc&index=82&list=FLHnheo7Xj-o-8DvNdMmPDxg&t=0s",
+                "https://www.youtube.com/watch?v=nWfyw51DQfU&t=92s",
+                "https://www.youtube.com/watch?v=UfQHEpf2q8k&list=RDDhSzpJOestE&index=2",
+                "https://www.youtube.com/watch?v=MdPqtVMkeLI&list=FLHnheo7Xj-o-8DvNdMmPDxg&index=7&t=7s",
+                "https://www.youtube.com/watch?v=qE82eFD7AjI&index=23&list=FLHnheo7Xj-o-8DvNdMmPDxg&t=0s"
+            ]
+        }
+}

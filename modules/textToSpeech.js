@@ -8,7 +8,6 @@ const textToSpeech = require('@google-cloud/text-to-speech');
 const client = new textToSpeech.TextToSpeechClient();
 
 
-//en-GB-Standard-D
 async function say(something){
     let arrayTranscript = [];
     let playlist = [];
@@ -24,8 +23,8 @@ async function say(something){
         playlist.push('output'+i+'.wav');
 
         const request = {
-            input: {text: sayThis},
-            voice: {languageCode: 'en-US', ssmlGender: 'NEUTRAL'},
+            input: {ssml: sayThis},
+            voice: {languageCode: 'en-US', name: 'en-GB-Standard-D', ssmlGender: 'NEUTRAL'},
             audioConfig: {audioEncoding: 'LINEAR16'},
         };
         // console.log(d);
