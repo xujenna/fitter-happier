@@ -5,7 +5,6 @@ const textToSpeech = require('./modules/textToSpeech');
 const schedule = require('node-schedule');
 const rituals = require('./modules/rituals')
 
-
 // RITUALS
 // get sun times on run, schedule rituals
 var sunTimes = SunCalc.getTimes(new Date(), 40.7, -74)
@@ -29,9 +28,8 @@ const CuteThings = require('./extensions/seal')
 const Poetry = require('./extensions/poetry')
 const Videos = require('./extensions/videos')
 const Exercises = require('./extensions/exercises')
+const Interactions = require('./extensions/interactions')
 
-// interventions by marker
-// const moodInterventions = [interactions (compliments, questions), goodThings]
 
 const interventions = {
     'stress' : [
@@ -46,7 +44,8 @@ const interventions = {
         {'videos': Videos}
     ],
     'mood': [
-        {'meditations': Meditations}
+        {'meditations': Meditations},
+        {'interactions': Interactions}
     ],
     'fatigue': [
         {'poetry': Poetry},
@@ -84,7 +83,7 @@ database.predictionsRef.on("child_added", function(snapshot){
             marker = "morale";
             prediction = moralePrediction;
         }
-        else if(moodPrediction < 2.9){
+        else if(moodPrediction < 2.8){
             marker = "mood";
             prediction = moodPrediction;
         }

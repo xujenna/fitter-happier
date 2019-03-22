@@ -15,9 +15,6 @@ class Meditations extends Intervention {
         }
     }
 
-    getScript(result) {
-        return result
-    }
 }
 
 module.exports = Meditations
