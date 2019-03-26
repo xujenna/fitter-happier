@@ -32,7 +32,7 @@ class Interactions extends Intervention {
                         let riddleTitle = json['data']['children'][randomIndex]['data']['title']
                         let riddleText = json['data']['children'][randomIndex]['data']['selftext']
                         emailer.emailContent(riddleTitle, riddleText)
-                        return riddleTitle + riddleText
+                        return riddleTitle + " " + riddleText
                     } catch (error) {
                         let link = json['data'][randomIndex]['images'][0]['link']
                         emailer.emailContent("Share a random riddle", "https://www.reddit.com/r/riddles/")

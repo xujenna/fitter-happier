@@ -1,6 +1,8 @@
 const rituals = require('../selfcare-scripts/rituals.json')
 var schedule = require('node-schedule');
 const textToSpeech = require('../modules/textToSpeech');
+const emailer = require('./emailer');
+const database = require('../modules/datastore');
 
 
 function setRitualAlarms(sunTimes){

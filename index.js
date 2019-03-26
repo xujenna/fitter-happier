@@ -38,14 +38,18 @@ const interventions = {
         {'poetry': Poetry},
         {'videos': Videos},
         {'exercises': Exercises}
+        // random location
+        // piano
     ],
     'morale': [
         {'poetry': Poetry},
         {'videos': Videos}
+        // chinese
     ],
     'mood': [
-        {'meditations': Meditations},
-        {'interactions': Interactions}
+        // {'meditations': Meditations}, // play audio for this
+        {'interactions': Interactions} 
+        // random location
     ],
     'fatigue': [
         {'poetry': Poetry},
@@ -65,33 +69,36 @@ database.predictionsRef.on("child_added", function(snapshot){
 
     if((currentTime / 1000) - timestamp <= 3600){
         console.log(newPost)
-        let marker;
-        let prediction;
 
         if(fatiguePrediction > 3.5 && new Date().getHours() < 7){
             textToSpeech.say("You should go to sleep.")
+            database.interventionsRef.push().set({
+                timestamp: + timestamp,
+                marker: "fatigue",
+                prediction: fatiguePrediction,
+                intervention: "oral sleep nudge",
+                content: "You should go to sleep."
+            })
         }
-        else if (fatiguePrediction > 3.65){
-            marker = "fatigue";
-            prediction = fatiguePrediction;
+        else if (fatiguePrediction > 3.5){
+            selectIntervention("fatigue", fatiguePrediction, timestamp)
         }
         else if(stressPrediction > 1.9){
-            marker = "stress";
-            prediction = stressPrediction;
+            selectIntervention("stress", stressPrediction, timestamp)
         }
-        else if(moralePrediction < 2.75){
-            marker = "morale";
-            prediction = moralePrediction;
+        else if(moralePrediction < 2.7){
+            selectIntervention("morale", moralePrediction, timestamp)
         }
-        else if(moodPrediction < 2.8){
-            marker = "mood";
-            prediction = moodPrediction;
+        else if(moodPrediction < 2.7){
+            selectIntervention("mood", moodPrediction, timestamp)
         }
-
-        let selected = Math.round(Math.random() * (interventions[marker].length - 1))
-        let SelectedIntervention = Object.values(interventions[marker][selected])[0]
-        let intervention = Object.keys(interventions[marker][selected])[0]
-        const selectedIntervention = new SelectedIntervention(marker,intervention,timestamp,prediction)
-        selectedIntervention.execute()
     }
 });
+
+function selectIntervention(marker, prediction, timestamp){
+    let selected = Math.round(Math.random() * (interventions[marker].length - 1))
+    let SelectedIntervention = Object.values(interventions[marker][selected])[0]
+    let intervention = Object.keys(interventions[marker][selected])[0]
+    const selectedIntervention = new SelectedIntervention(marker,intervention,timestamp,prediction)
+    selectedIntervention.execute()
+}
