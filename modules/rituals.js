@@ -39,7 +39,7 @@ function setRitualAlarms(sunTimes){
     // random question
     var randomQuestionRule = new schedule.RecurrenceRule();
     // let randomHour = parseInt(sunTimes.sunrise.getMinutes().toString().split('').pop())
-    randomQuestionRule.hour = sunSalutationRule.hour + Math.round(Math.random() * 4) + 2;
+    randomQuestionRule.hour = sunSalutationRule.hour + Math.round(Math.random() * 4) + 1.5;
     randomQuestionRule.minute = sunTimes.night.getMinutes();
 
     console.log("random question: " + randomQuestionRule.hour + ":"+randomQuestionRule.minute)
