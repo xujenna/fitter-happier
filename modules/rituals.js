@@ -3,7 +3,7 @@ var schedule = require('node-schedule');
 const textToSpeech = require('../modules/textToSpeech');
 const emailer = require('./emailer');
 const database = require('../modules/datastore');
-
+const fetch = require("node-fetch");
 
 function setRitualAlarms(sunTimes){
     // daily noonday walk
