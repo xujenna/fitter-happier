@@ -4,8 +4,8 @@ var serialPort = new SerialPort("/dev/ttyS0");
 serialPort.on("open", function () {
     console.log('Serial communication open');
     // serialPort.write("AT^SYSCFG=13,1,3FFFFFFF,2,4");
-    serialPort.write("AT");
-    serialPort.write('\r');
+    // serialPort.write("AT");
+    // serialPort.write('\r');
     serialPort.on('data', function(data) {
         console.log("Received data: " + data);
     });
