@@ -21,7 +21,7 @@ serialPort.on("open", function () {
                 serialPort.close();
             }, 1000)
         }
-        else {
+        else if(count < W_buff.length - 1){
             setTimeout(function(){
                 gsm_message_sending(count);
             }, 1000)
