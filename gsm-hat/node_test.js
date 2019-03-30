@@ -3,7 +3,8 @@ var serialPort = new SerialPort("/dev/ttyS0");
 
 serialPort.on("open", function () {
     console.log('Serial communication open');
-    serialPort.write("AT^SYSCFG=13,1,3FFFFFFF,2,4");
+    // serialPort.write("AT^SYSCFG=13,1,3FFFFFFF,2,4");
+    serialPort.write("AT");
     serialPort.write('\r');
     serialPort.on('data', function(data) {
         console.log("Received data: " + data);
@@ -23,6 +24,6 @@ function gsm_message_sending(serial, message, phone_no) {
     serial.write('"')
     serial.write('\r');
     serial.write(message); 
-    serial.write(Buffer([0x1A]));
+    serial.write(Buffer.from([0x1A]));
     serial.write('^z');
 }
