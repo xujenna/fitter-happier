@@ -33,15 +33,17 @@ serialPort.on("open", function () {
 
     for(let i = 0; i <= W_buff.length -1; i++){
         setTimeout(function(){
-            gsm_message_sending(W_buff[i]);
+            if(i == W_buff.length - 1){
+                serialPort.write(W_buff[i]);
+                serialPort.drain()
+                serialPort.write("\x1a\r\n");
+                serialPort.drain()
+            }
+            else{
+                gsm_message_sending(W_buff[i]);
+            }
         }, 5000)
 
-        if(i == W_buff.length - 1){
-            serialPort.write(W_buff[i]);
-            serialPort.drain()
-            serialPort.write("\x1a\r\n");
-            serialPort.drain()
-        }
     }
 });
 
