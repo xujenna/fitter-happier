@@ -10,10 +10,10 @@ serialPort.on("open", function () {
         console.log("Received data: " + data);
     });
 
-    for(let i = 0; i < W_buff.length; i++){
+    for(let i = 0; i <= W_buff.length; i++){
         setTimeout(function(){
             gsm_message_sending(W_buff[i]);
-        }, 4000)
+        }, 5000)
 
         // if(i == W_buff.length - 1){
         //     serialPort.write(Buffer.from([0x1A]));
