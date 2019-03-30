@@ -20,10 +20,11 @@ serialPort.on("open", function () {
             serialPort.write("\x1a\r\n");
         }
     }
+
+    serialPort.close();
 });
 
 function gsm_message_sending(message) {
     serialPort.write(message);
     console.log(message)
 }
-
