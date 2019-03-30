@@ -26,7 +26,7 @@ serialPort.on("open", function () {
             console.log(count);
         }
 
-        if(count >= W_buff.length - 1){
+        if(count >= W_buff.length){
             count = 0;
             serialPort.flush();
             serialPort.close();
