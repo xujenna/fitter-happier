@@ -21,6 +21,7 @@ serialPort.on("open", function () {
         console.log(data);
         if(data.includes("OK")){
             count += 1;
+            gsm_message_sending(count)
         }
         console.log(count);
 
@@ -31,26 +32,24 @@ serialPort.on("open", function () {
         }
     })
 
-    for(let i = 0; i <= W_buff.length -1; i++){
-        setTimeout(function(){
-            if(i == W_buff.length - 1){
-                serialPort.write(W_buff[i]);
-                serialPort.drain()
-                serialPort.write("\x1a\r\n");
-                serialPort.drain()
-            }
-            else{
-                gsm_message_sending(W_buff[i]);
-            }
-        }, 5000)
-
-    }
 });
 
-function gsm_message_sending(message) {
-    if(message !== undefined){
-        serialPort.write(message);
-        serialPort.drain()
-        console.log(message)
-    }
+function gsm_message_sending(count) {
+    // if(message !== undefined){
+    //     serialPort.write(message);
+    //     serialPort.drain()
+    //     console.log(message)
+    // }
+    // setTimeout(function(){
+        if(count == W_buff.length - 1){
+            serialPort.write(W_buff[count]);
+            serialPort.drain()
+            serialPort.write("\x1a\r\n");
+            serialPort.drain()
+        }
+        else{
+            gsm_message_sending(W_buff[count]);
+        }
+    // }, 5000)
 }
+
