@@ -19,7 +19,7 @@ serialPort.on("open", function () {
 
     parser.on('data', function(data){
         console.log(data);
-        if(data == "OK"){
+        if(data.includes("OK")){
             count += 1;
         }
         console.log(count);
