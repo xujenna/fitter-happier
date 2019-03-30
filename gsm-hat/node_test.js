@@ -11,7 +11,7 @@ serialPort.on("open", function () {
         console.log("Received data: " + data);
     });
 
-    for(let i = 0; i <= W_buff.length; i++){
+    for(let i = 0; i <= W_buff.length -1; i++){
         setTimeout(function(){
             gsm_message_sending(W_buff[i]);
         }, 5000)
