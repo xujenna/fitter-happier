@@ -15,13 +15,14 @@ serialPort.on("open", function () {
             gsm_message_sending(W_buff[i]);
         }, 4000)
 
-        if(i == W_buff.length - 1){
-            serialPort.write(Buffer.from([0x1A]));
-        }
+        // if(i == W_buff.length - 1){
+        //     serialPort.write(Buffer.from([0x1A]));
+        // }
     }
 });
 
 function gsm_message_sending(message) {
     serialPort.write(message);
+    console.log(message)
 }
 
