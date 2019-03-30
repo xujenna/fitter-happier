@@ -28,7 +28,7 @@ serialPort.on("open", function () {
         else if (data.includes("ERROR")){
             console.log("retrying?")
             setTimeout(function(){
-                serialPort.write(W_buff[count]);
+                gsm_message_sending(count);
             }, 1500)
             console.log(count);
         }
