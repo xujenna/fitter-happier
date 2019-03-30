@@ -14,6 +14,10 @@ serialPort.on("open", function () {
 function gsm_message_sending(serial, message, phone_no) {
     serial.write("AT+CMGF=1");
     serial.write('\r');
+    serial.write("AT+CSCA=\"");
+    serial.write("+12063130004")
+    serial.write('"')
+    serial.write('\r');
     serial.write("AT+CMGS=\"");
     serial.write(phone_no);
     serial.write('"')
