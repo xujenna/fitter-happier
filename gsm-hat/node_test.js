@@ -10,7 +10,9 @@ serialPort.on("open", function () {
     serialPort.on('data', function(data) {
         console.log("Received data: " + data);
         for(let i = 0; i <= W_buff.length - 1; i++){
-            gsm_message_sending(W_buff[i]);
+            setTimeout(function(){
+                gsm_message_sending(W_buff[i]);
+            }, 5000)
     
             if(i == W_buff.length - 1){
                 serialPort.write(W_buff[i]);
