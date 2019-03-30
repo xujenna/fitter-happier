@@ -25,6 +25,8 @@ serialPort.on("open", function () {
             serialPort.drain()
             serialPort.write("\x1a\r\n");
             serialPort.drain()
+            serialPort.flush()
+            serialPort.close()
         }
     }
 });
