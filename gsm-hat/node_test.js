@@ -7,7 +7,7 @@ serialPort.on("open", function () {
     serialPort.flush()
     console.log('Serial communication open');
 
-    serialPort.on('data', function(data) {
+    serialPort.on('readable', function(data) {
         console.log("Received data: " + data);
     });
 
