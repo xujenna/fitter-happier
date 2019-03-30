@@ -12,7 +12,7 @@ serialPort.on("open", function () {
         count += 1;
         console.log(count)
         if(count == W_buff.length - 1){
-            serialPort.write(W_buff[i]);
+            serialPort.write(W_buff[count]);
             serialPort.write("\x1a\r\n");
             serialPort.close();
         }
