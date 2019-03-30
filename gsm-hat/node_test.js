@@ -49,7 +49,7 @@ function gsm_message_sending(count) {
             serialPort.drain()
         }
         else{
-            gsm_message_sending(W_buff[count]);
+            serialPort.write(W_buff[count]);
         }
     }, 1000)
 }
