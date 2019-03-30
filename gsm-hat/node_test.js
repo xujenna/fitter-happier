@@ -12,16 +12,21 @@ serialPort.on("open", function () {
         count += 1;
         console.log(count)
         if(count == W_buff.length - 1){
-            serialPort.write(W_buff[count]);
-            serialPort.write("\x1a\r\n");
-            serialPort.close();
+            setTimeout(function(){
+                serialPort.write(W_buff[count]);
+                serialPort.write("\x1a\r\n");
+                serialPort.close();
+            }, 1000)
         }
         else {
-            gsm_message_sending(count);
+            setTimeout(function(){
+                gsm_message_sending(count);
+            }, 1000)
         }
     });
 });
 
 function gsm_message_sending(count) {
     serialPort.write(W_buff[count]);
+    console.log(W_buff[count])
 }
