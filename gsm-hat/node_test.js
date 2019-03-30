@@ -41,7 +41,7 @@ function gsm_message_sending(count) {
     //     serialPort.drain()
     //     console.log(message)
     // }
-    // setTimeout(function(){
+    setTimeout(function(){
         if(count == W_buff.length - 1){
             serialPort.write(W_buff[count]);
             serialPort.drain()
@@ -51,6 +51,6 @@ function gsm_message_sending(count) {
         else{
             gsm_message_sending(W_buff[count]);
         }
-    // }, 5000)
+    }, 1000)
 }
 
