@@ -5,9 +5,10 @@ const Readline = require('@serialport/parser-readline')
 let W_buff = ["AT+CMGF=1\r\n", "AT+CSCA=\"+12063130004\"\r\n", "AT+CMGS=\"16307308188\"\r\n","hey girl\r\n"]
 
 let count = 0;
+console.log("before")
 
 const parser = serialPort.pipe(new Readline({ delimiter: '\r\n' }))
-
+console.log("after")
 
 serialPort.on("open", function () {
     serialPort.flush()
