@@ -24,5 +24,4 @@ serialPort.on("open", function () {
 
 function gsm_message_sending(count) {
     serialPort.write(W_buff[count]);
-    console.log(message)
 }
