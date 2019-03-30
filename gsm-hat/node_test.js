@@ -1,6 +1,4 @@
 const SerialPort = require("serialport")
-const Readline = SerialPort.parsers.Readline
-
 const serialPort = new SerialPort("/dev/ttyS0");
 const parser = new Readline()
 serialPort.pipe(parser)
@@ -11,12 +9,8 @@ serialPort.on("open", function () {
     serialPort.flush()
     console.log('Serial communication open');
 
-    parser.on('data', function(data) {
+    serialPort.on('data', function(data) {
         console.log("Received data: " + data);
-        if(data == W_buff[W_buff.length -1]){
-            serialPort.flush()
-            serialPort.close()
-        }
     });
 
     for(let i = 0; i <= W_buff.length -1; i++){
