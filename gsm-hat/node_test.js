@@ -49,8 +49,14 @@ function gsm_message_sending(count) {
             serialPort.drain()
         }
         else{
-            serialPort.write(W_buff[count]);
+            serialPort.write(W_buff[count], function(err){
+                console.log("error, resending?" + err)
+
+                setTimeout(function(){
+                    serialPort.write(W_buff[count]);
+                }, 1500)
+            });
         }
-    }, 1000)
+    }, 1500)
 }
 
