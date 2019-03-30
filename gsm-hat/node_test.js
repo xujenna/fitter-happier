@@ -14,9 +14,9 @@ serialPort.on("open", function () {
     serialPort.write("AT\r\n")
     console.log('Serial communication open');
 
-    serialPort.on('data', function(data) {
-        console.log("Received data: " + data);
-    });
+    // serialPort.on('data', function(data) {
+    //     console.log("Received data: " + data);
+    // });
 
     parser.on('data', function(data){
         console.log("parsed data: " + data);
