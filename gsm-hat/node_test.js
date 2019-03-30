@@ -11,7 +11,10 @@ serialPort.on("open", function () {
         console.log("Received data: " + data);
         count += 1;
         console.log(count)
-        if(count == W_buff.length - 1){
+        if(count == W_buff.length){
+            serialPort.close();
+        }
+        else if(count == W_buff.length - 1){
             setTimeout(function(){
                 serialPort.write(W_buff[count]);
                 serialPort.write("\x1a\r\n");
