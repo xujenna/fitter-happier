@@ -7,7 +7,7 @@ serialPort.on("open", function () {
     serialPort.flush()
     console.log('Serial communication open');
     serialPort.write("AT\r\n")
-    
+
     serialPort.on('readable', function(data) {
         console.log("Received data: " + data);
     });
@@ -30,7 +30,7 @@ function gsm_message_sending(message) {
         console.log(message)
     }
     else{
-        serialPort.flush()
+        serialport.drain()
         serialPort.close()
     }
 }
