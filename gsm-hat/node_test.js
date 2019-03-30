@@ -9,10 +9,10 @@ serialPort.on("open", function () {
 
     serialPort.on('data', function(data) {
         console.log("Received data: " + data);
-        // if(data == W_buff[W_buff.length -1]){
-        //     serialPort.flush()
-        //     serialPort.close()
-        // }
+        if(data == W_buff[W_buff.length -1]){
+            serialPort.flush()
+            serialPort.close()
+        }
     });
 
     for(let i = 0; i <= W_buff.length -1; i++){
@@ -25,8 +25,6 @@ serialPort.on("open", function () {
             serialPort.drain()
             serialPort.write("\x1a\r\n");
             serialPort.drain()
-            serialPort.flush()
-            serialPort.close()
         }
     }
 });
