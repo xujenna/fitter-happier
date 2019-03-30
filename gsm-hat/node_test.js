@@ -7,8 +7,8 @@ let W_buff = ["AT\r\n", "AT+CMGF=1\r\n", "AT+CSCA=\"+12063130004\"\r\n", "AT+CMG
 serialPort.on("open", function () {
     console.log('Serial communication open');
     // serialPort.write("AT^SYSCFG=13,1,3FFFFFFF,2,4");
-    console.log(W_buff[0])
-    serialPort.write(W_buff[0]);
+    // console.log(W_buff[0])
+    // serialPort.write(W_buff[0]);
     serialPort.on('data', function(data) {
         console.log("Received data: " + data);
     });
@@ -16,9 +16,8 @@ serialPort.on("open", function () {
 });
 
 function gsm_message_sending() {
-    for(let i = 1; i < W_buff.length; i++){
+    for(let i = 0; i < W_buff.length; i++){
         setTimeout(function(){
-            console.log(W_buff[i])
             serialPort.write(W_buff[i]);
         }, 3000)
     }
