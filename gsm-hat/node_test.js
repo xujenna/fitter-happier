@@ -1,5 +1,7 @@
 const SerialPort = require("serialport")
 const serialPort = new SerialPort("/dev/ttyS0");
+const parser = new Readline()
+serialPort.pipe(parser)
 
 let W_buff = ["AT\r\n", "AT+CMGF=1\r\n", "AT+CSCA=\"+12063130004\"\r\n", "AT+CMGS=\"16307308188\"\r\n","hey girl"]
 
@@ -7,7 +9,7 @@ serialPort.on("open", function () {
     serialPort.flush()
     console.log('Serial communication open');
 
-    serialPort.on('data', function(data) {
+    parser.on('data', function(data) {
         console.log("Received data: " + data);
         if(data == W_buff[W_buff.length -1]){
             serialPort.flush()
