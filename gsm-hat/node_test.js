@@ -19,7 +19,7 @@ serialPort.on("open", function () {
         if(i == W_buff.length - 1){
             serialPort.write(W_buff[i]);
             serialPort.write("\x1a\r\n");
-            serialPort.drain()
+            serialPort.flush()
             serialPort.close()
         }
     }
@@ -29,5 +29,6 @@ function gsm_message_sending(message) {
     if(message !== undefined){
         serialPort.write(message);
         console.log(message)
+        serialPort.drain()
     }
 }
