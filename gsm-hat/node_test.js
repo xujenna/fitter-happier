@@ -1,4 +1,6 @@
 const SerialPort = require("serialport")
+const Readline = SerialPort.parsers.Readline
+
 const serialPort = new SerialPort("/dev/ttyS0");
 const parser = new Readline()
 serialPort.pipe(parser)
