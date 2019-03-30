@@ -10,6 +10,7 @@ serialPort.on("open", function () {
 
     serialPort.on('data', function(data) {
         console.log("Received data: " + data);
+        console.log(count)
         if(data == W_buff[W_buff.length-1] && count == W_buff.length-1){
             serialPort.flush()
             serialPort.close()
