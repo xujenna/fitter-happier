@@ -25,13 +25,13 @@ serialPort.on("open", function () {
             gsm_message_sending(count)
             console.log(count);
         }
-        // else if (data.includes("ERROR")){
-        //     console.log("retrying?")
-        //     setTimeout(function(){
-        //         gsm_message_sending(count);
-        //     }, 1500)
-        //     console.log(count);
-        // }
+        else if (data.includes("ERROR")){
+            console.log("retrying?")
+            setTimeout(function(){
+                gsm_message_sending(count);
+            }, 1500)
+            console.log(count);
+        }
 
         if(count >= W_buff.length){
             count = 0;
