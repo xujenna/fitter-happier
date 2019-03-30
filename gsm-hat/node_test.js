@@ -52,18 +52,17 @@ function gsm_message_sending(count) {
         if(count == W_buff.length - 1){
             setTimeout(function(){
                 serialPort.write(W_buff[count]);
-                serialPort.drain()
                 serialPort.write("\x1a\r\n");
                 serialPort.drain()
             }, 1500)
         }
         else{
-            serialPort.write(W_buff[count], function(err){
-                console.log("error, resending?" + err)
-                setTimeout(function(){
-                    serialPort.write(W_buff[count]);
-                }, 1500)
-            });
+            serialPort.write(W_buff[count])//, function(err){
+                // console.log("error, resending?" + err)
+                // setTimeout(function(){
+                //     serialPort.write(W_buff[count]);
+                // }, 1500)
+            // });
         }
     }, 1500)
     serialPort.drain()
