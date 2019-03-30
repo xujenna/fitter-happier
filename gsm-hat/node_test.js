@@ -19,12 +19,12 @@ serialPort.on("open", function () {
     });
 
     parser.on('data', function(data){
-        console.log(data);
+        console.log("parsed data: " + data);
         if(data.includes("OK")){
             count += 1;
             gsm_message_sending(count)
+            console.log(count);
         }
-        console.log(count);
 
         if(count >= W_buff.length - 1){
             count = 0;
