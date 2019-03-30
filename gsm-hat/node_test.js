@@ -19,10 +19,6 @@ serialPort.on("open", function () {
             serialPort.write(W_buff[i]);
             serialPort.write("\x1a\r\n");
             serialPort.close();
-
-        }
-        else if(i == W_buff.length){
-            serialPort.close();
         }
     }
 });
