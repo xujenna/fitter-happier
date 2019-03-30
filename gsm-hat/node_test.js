@@ -50,9 +50,13 @@ function gsm_message_sending(count) {
     // }
     setTimeout(function(){
         if(count == W_buff.length - 1){
-            serialPort.write(W_buff[count]);
+            setTimeout(function(){
+                serialPort.write(W_buff[count]);
+            }, 1500)
             serialPort.drain()
-            serialPort.write("\x1a\r\n");
+            setTimeout(function(){
+                serialPort.write("\x1a\r\n");
+            }, 1500)
             serialPort.drain()
         }
         else{
