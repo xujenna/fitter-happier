@@ -9,15 +9,16 @@ serialPort.on("open", function () {
     serialPort.on('data', function(data) {
         console.log("Received data: " + data);
     });
-    gsm_message_sending();
+
+    for(let i = 0; i < W_buff.length; i++){
+        setTimeout(function(){
+            gsm_message_sending(W_buff[i]);
+        }, 4000)
+    }
+    serialPort.write(Buffer.from([0x1A]));
 });
 
-function gsm_message_sending() {
-    setTimeout(function(){
-        for(let i = 0; i < W_buff.length; i++){
-            serialPort.write(W_buff[i]);
-        }
-    }, 4000)
-
-    serialPort.write(Buffer.from([0x1A]));
+function gsm_message_sending(message) {
+        serialPort.write(message);
 }
+
