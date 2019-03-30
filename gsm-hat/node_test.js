@@ -1,7 +1,24 @@
 const SerialPort = require("serialport")
 const serialPort = new SerialPort("/dev/ttyS0");
+const Readline = require('@serialport/parser-readline')
 
 let W_buff = ["AT\r\n", "AT+CMGF=1\r\n", "AT+CSCA=\"+12063130004\"\r\n", "AT+CMGS=\"16307308188\"\r\n","hey girl"]
+
+let count = 0;
+
+const parser = port.pipe(new Readline({ delimiter: '\r\n' }))
+parser.on('data', function(data){
+    console.log(data);
+    if(data == "OK"){
+        count += 1;
+    }
+    if(count == W_buff.length - 1){
+        count = 0;
+        serialPort.flush();
+        serialPort.close();
+    }
+})
+
 
 serialPort.on("open", function () {
     serialPort.flush()
@@ -10,6 +27,8 @@ serialPort.on("open", function () {
     serialPort.on('data', function(data) {
         console.log("Received data: " + data);
     });
+
+
 
     for(let i = 0; i <= W_buff.length -1; i++){
         setTimeout(function(){
