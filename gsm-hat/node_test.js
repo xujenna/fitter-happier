@@ -24,7 +24,7 @@ serialPort.on("open", function () {
 });
 
 function gsm_message_sending(message) {
-    if(!undefined){
+    if(message !== undefined){
         serialPort.write(message);
         console.log(message)
     }
