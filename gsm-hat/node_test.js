@@ -1,12 +1,13 @@
 const SerialPort = require("serialport")
 const serialPort = new SerialPort("/dev/ttyS0");
 
-let W_buff = ["AT\r\n", "AT+CMGF=1\r\n", "AT+CSCA=\"+12063130004\"\r\n", "AT+CMGS=\"16307308188\"\r\n","hey girl"]
+let W_buff = ["AT+CMGF=1\r\n", "AT+CSCA=\"+12063130004\"\r\n", "AT+CMGS=\"16307308188\"\r\n","hey girl"]
 
 serialPort.on("open", function () {
     serialPort.flush()
     console.log('Serial communication open');
-
+    serialPort.write("AT\r\n")
+    
     serialPort.on('readable', function(data) {
         console.log("Received data: " + data);
     });
