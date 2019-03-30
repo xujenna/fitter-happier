@@ -10,13 +10,14 @@ serialPort.on("open", function () {
     serialPort.on('data', function(data) {
         console.log("Received data: " + data);
         count += 1;
+        console.log(count)
         if(count == W_buff.length - 1){
             serialPort.write(W_buff[i]);
             serialPort.write("\x1a\r\n");
             serialPort.close();
         }
         else {
-            gsm_message_sending(W_buff[count]);
+            gsm_message_sending(count);
         }
     });
 });
