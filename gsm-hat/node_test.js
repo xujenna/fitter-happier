@@ -5,13 +5,13 @@ let W_buff = ["AT\r\n", "AT+CMGF=1\r\n", "AT+CSCA=\"+12063130004\"\r\n", "AT+CMG
 
 serialPort.on("open", function () {
     serialPort.flush()
-
     console.log('Serial communication open');
 
     serialPort.on('data', function(data) {
         console.log("Received data: " + data);
         if(data == W_buff[W_buff.length-1]){
             serialPort.close()
+            serialPort.flush()
         }
     });
 
