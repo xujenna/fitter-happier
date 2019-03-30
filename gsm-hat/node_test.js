@@ -10,7 +10,7 @@ serialPort.on("open", function () {
         console.log("Received data: " + data);
     });
 
-    for(let i = 0; i <= W_buff.length -1; i++){
+    for(let i = 0; i <= W_buff.length; i++){
         setTimeout(function(){
             gsm_message_sending(W_buff[i]);
         }, 5000)
@@ -19,9 +19,10 @@ serialPort.on("open", function () {
             serialPort.write(W_buff[i]);
             serialPort.write("\x1a\r\n");
         }
+        else if(i == W_buff.length){
+            serialPort.close();
+        }
     }
-
-    serialPort.close();
 });
 
 function gsm_message_sending(message) {
