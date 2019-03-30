@@ -52,12 +52,10 @@ function gsm_message_sending(count) {
         if(count == W_buff.length - 1){
             setTimeout(function(){
                 serialPort.write(W_buff[count]);
-            }, 1500)
-            serialPort.drain()
-            setTimeout(function(){
+                serialPort.drain()
                 serialPort.write("\x1a\r\n");
+                serialPort.drain()
             }, 1500)
-            serialPort.drain()
         }
         else{
             serialPort.write(W_buff[count], function(err){
