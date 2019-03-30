@@ -1,7 +1,7 @@
 const SerialPort = require("serialport")
 const serialPort = new SerialPort("/dev/ttyS0");
 
-let W_buff = ["AT\r\n", "AT+CMGF=1\r\n", "AT+CSCA=\"+12063130004\"\r\n", "AT+CMGS=\"16307308188\"\r\n","hey girl","\x1a\r\n"]
+let W_buff = ["AT\r\n", "AT+CMGF=1\r\n", "AT+CSCA=\"+12063130004\"\r\n", "AT+CMGS=\"16307308188\"\r\n","hey girl"]
 
 serialPort.on("open", function () {
     console.log('Serial communication open');
@@ -10,14 +10,15 @@ serialPort.on("open", function () {
         console.log("Received data: " + data);
     });
 
-    for(let i = 0; i <= W_buff.length; i++){
+    for(let i = 0; i <= W_buff.length -1; i++){
         setTimeout(function(){
             gsm_message_sending(W_buff[i]);
         }, 5000)
 
-        // if(i == W_buff.length - 1){
-        //     serialPort.write(Buffer.from([0x1A]));
-        // }
+        if(i == W_buff.length - 1){
+            serialPort.write(W_buff[i]);
+            serialPort.write("\x1a\r\n");
+        }
     }
 });
 
