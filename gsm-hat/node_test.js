@@ -6,7 +6,7 @@ let W_buff = ["AT\r\n", "AT+CMGF=1\r\n", "AT+CSCA=\"+12063130004\"\r\n", "AT+CMG
 
 let count = 0;
 
-const parser = port.pipe(new Readline({ delimiter: '\r\n' }))
+const parser = serialPort.pipe(new Readline({ delimiter: '\r\n' }))
 parser.on('data', function(data){
     console.log(data);
     if(data == "OK"){
