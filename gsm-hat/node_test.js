@@ -25,13 +25,13 @@ serialPort.on("open", function () {
             gsm_message_sending(count)
             console.log(count);
         }
-        // else if (data.includes("ERROR")){
-        //     console.log("retrying?")
-        //     setTimeout(function(){
-        //         gsm_message_sending(count);
-        //     }, 1500)
-        //     console.log(count);
-        // }
+        else if (data.includes("ERROR")){
+            console.log("retrying?")
+            setTimeout(function(){
+                gsm_message_sending(count);
+            }, 1500)
+            console.log(count);
+        }
 
         if(count >= W_buff.length){
             count = 0;
@@ -57,12 +57,12 @@ function gsm_message_sending(count) {
             }, 1500)
         }
         else{
-            serialPort.write(W_buff[count], function(err){
-                console.log("error, resending?" + err)
-                setTimeout(function(){
-                    serialPort.write(W_buff[count]);
-                }, 1500)
-            });
+            serialPort.write(W_buff[count])//, function(err){
+                // console.log("error, resending?" + err)
+                // setTimeout(function(){
+                //     serialPort.write(W_buff[count]);
+                // }, 1500)
+            // });
         }
     }, 1500)
     serialPort.drain()
