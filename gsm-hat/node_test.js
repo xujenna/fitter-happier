@@ -19,11 +19,11 @@ serialPort.on("open", function () {
 
     parser.on('data', function(data){
         console.log("parsed data: " + data);
-        // if(data.includes("OK")){
+        if(data.includes("OK")){
             gsm_message_sending(count)
             count += 1;
             console.log(count);
-        // }
+        }
         // else if (data.includes("ERROR")){
         //     console.log("retrying?")
         //     setTimeout(function(){
