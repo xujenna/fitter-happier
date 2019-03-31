@@ -19,11 +19,11 @@ serialPort.on("open", function () {
 
     parser.on('data', function(data){
         console.log("parsed data: " + data);
-        if(data.includes("OK")){
+        // if(data.includes("OK")){
             gsm_message_sending(count)
             count += 1;
             console.log(count);
-        }
+        // }
         // else if (data.includes("ERROR")){
         //     console.log("retrying?")
         //     setTimeout(function(){
@@ -48,7 +48,7 @@ function gsm_message_sending(count) {
     //     console.log(message)
     // }
     setTimeout(function(){
-        if(count == W_buff.length - 1){
+        if(count == W_buff.length * 2 - 1){
             // setTimeout(function(){
                 serialPort.write(W_buff[count]);
                 serialPort.write(Buffer.from([0x1A]));
