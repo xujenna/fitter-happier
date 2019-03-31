@@ -33,7 +33,7 @@ const Interactions = require('./extensions/interactions')
 
 const interventions = {
     'stress' : [
-        {'meditations': Meditations},
+        {'meditations': Meditations}
         {'cuteThings': CuteThings},
         {'poetry': Poetry},
         {'videos': Videos},

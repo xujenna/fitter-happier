@@ -31,9 +31,6 @@ class Intervention {
     }
 
     logIntervention(marker, intervention, timestamp, prediction, result){
-        console.log(result.title)
-        console.log(result.script)
-
         database.interventionsRef.push().set({
             timestamp: + timestamp,
             marker: marker,
