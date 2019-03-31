@@ -49,12 +49,13 @@ function gsm_message_sending(count) {
     // }
     setTimeout(function(){
         if(count == W_buff.length - 1){
-            setTimeout(function(){
+            console.log("length - 1")
+            // setTimeout(function(){
                 serialPort.write(W_buff[count]);
                 serialPort.write(new Buffer([0x1A]));
                 serialPort.write("\x1a\r\n");
                 serialPort.drain()
-            }, 1500)
+            // }, 1500)
         }
         else{
             serialPort.write(W_buff[count])
