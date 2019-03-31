@@ -54,6 +54,8 @@ const interventions = {
         {'exercises': Exercises}
     ]
 }
+let currentTime = + new Date() / 1000;
+selectIntervention("morale", 44444, timestamp)
 
 database.predictionsRef.on("child_added", function(snapshot){
     let newPost = snapshot.val();
