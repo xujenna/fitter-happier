@@ -23,7 +23,7 @@ schedule.scheduleJob(sunTimesRule, function(sunTimes) {
 
 // INTERVENTIONS
 // load extensions
-// const Meditations = require('./extensions/meditations')
+const Meditations = require('./extensions/meditations')
 const CuteThings = require('./extensions/seal')
 const Poetry = require('./extensions/poetry')
 const Videos = require('./extensions/videos')
@@ -33,7 +33,7 @@ const Interactions = require('./extensions/interactions')
 
 const interventions = {
     'stress' : [
-        // {'meditations': Meditations},
+        {'meditations': Meditations},
         {'cuteThings': CuteThings},
         {'poetry': Poetry},
         {'videos': Videos},
@@ -47,7 +47,7 @@ const interventions = {
         // chinese
     ],
     'mood': [
-        // {'meditations': Meditations}, // play audio for this
+        {'meditations': Meditations}, // play audio for this
         {'interactions': Interactions} 
         // random location
     ],

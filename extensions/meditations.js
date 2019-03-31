@@ -1,18 +1,29 @@
 const Intervention = require('./base')
-var meditations = require('../selfcare-scripts/meditations.json');
+// let meditations = require('../selfcare-scripts/meditations.json');
+const fs = require('fs');
+const player = require('play-sound')(opts = {})
+
+
 
 class Meditations extends Intervention {
+    async execute() {
+        const result = await this.trigger(this.marker, this.intervention, this.timestamp, this.prediction)
+        this.logIntervention(this.marker, this.intervention, this.timestamp, this.prediction, result)
+        player.play(("selfcare-scripts/meditation_recordings/" + result.script), { aplay: ['-D', 'bluealsa:HCI=hci0,DEV=00:00:00:00:88:C8,PROFILE=a2dp'] });
+    }
+
     async trigger(){
-        if(this.marker == "stress"){ 
-            let randomIndex = Math.round(Math.random() * (meditations['stress'].length- 1))
-            let randomMeditation = meditations['stress'][randomIndex]
-            return randomMeditation
-        }
-        else if(this.marker =="mood"){
-            let randomIndex = Math.round(Math.random() * (meditations['mood'].length- 1))
-            let randomMeditation = meditations['mood'][randomIndex]
-            return randomMeditation
-        }
+        let directory = "selfcare-scripts/meditation_recordings/"
+
+        let meditationInfo = {}
+
+        let options = fs.readdirSync(directory + this.marker)
+        let randomIndex = Math.round(Math.random() * (options.length- 1))
+        let randomMeditation = options[randomIndex]
+
+        meditationInfo["script"] = randomMeditation
+        meditationInfo["title"] = "meditation for " + this.marker
+        return meditationInfo
     }
 
 }
