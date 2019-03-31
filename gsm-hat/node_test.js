@@ -55,7 +55,7 @@ function gsm_message_sending(count) {
                 serialPort.drain()
             }, 1500)
         }
-        else{
+        else if (count < W_buff.length - 1){
             serialPort.write(W_buff[count])
             serialPort.drain()
             //, function(err){
