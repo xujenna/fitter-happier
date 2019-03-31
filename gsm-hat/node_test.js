@@ -8,38 +8,38 @@ let count = 0;
 
 const parser = serialPort.pipe(new Readline({ delimiter: '\r\n' }))
 
-serialPort.on("open", function () {
-    serialPort.flush()
-    serialPort.write("AT\r\n")
-    console.log('Serial communication open');
+// serialPort.on("open", function () {
+//     serialPort.flush()
+//     serialPort.write("AT\r\n")
+//     console.log('Serial communication open');
 
-    // serialPort.on('data', function(data) {
-    //     console.log("Received data: " + data);
-    // });
+//     // serialPort.on('data', function(data) {
+//     //     console.log("Received data: " + data);
+//     // });
 
-    parser.on('data', function(data){
-        console.log("parsed data: " + data);
-        if(data.includes("OK")){
-            count += 1;
-            gsm_message_sending(count)
-            console.log(count);
-        }
-        else if (data.includes("ERROR")){
-            console.log("retrying?")
-            setTimeout(function(){
-                gsm_message_sending(count);
-            }, 1500)
-            console.log(count);
-        }
+//     parser.on('data', function(data){
+//         console.log("parsed data: " + data);
+//         if(data.includes("OK")){
+//             count += 1;
+//             gsm_message_sending(count)
+//             console.log(count);
+//         }
+//         else if (data.includes("ERROR")){
+//             console.log("retrying?")
+//             setTimeout(function(){
+//                 gsm_message_sending(count);
+//             }, 1500)
+//             console.log(count);
+//         }
 
-        if(count >= W_buff.length){
-            count = 0;
-            serialPort.flush();
-            serialPort.close();
-        }
-    })
+//         if(count >= W_buff.length){
+//             count = 0;
+//             serialPort.flush();
+//             serialPort.close();
+//         }
+//     })
 
-});
+// });
 
 function gsm_message_sending(count) {
     // if(message !== undefined){
