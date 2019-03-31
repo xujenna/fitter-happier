@@ -9,7 +9,7 @@ let count = 0;
 const parser = serialPort.pipe(new Readline({ delimiter: '\r\n' }))
 
 serialPort.on("open", function () {
-    serialPort.flush()
+    // serialPort.flush()
     serialPort.write("AT\r\n")
     console.log('Serial communication open');
 
@@ -38,7 +38,6 @@ serialPort.on("open", function () {
             serialPort.close();
         }
     })
-
 });
 
 function gsm_message_sending(count) {
