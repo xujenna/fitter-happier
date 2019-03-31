@@ -21,6 +21,8 @@ serialPort.on("open", function () {
         console.log("parsed data: " + data);
         // if(data.includes("OK")){
             gsm_message_sending(count)
+            count += 1;
+            console.log(count);
         // }
         // else if (data.includes("ERROR")){
         //     console.log("retrying?")
@@ -66,7 +68,5 @@ function gsm_message_sending(count) {
         }
     }, 1500)
 
-    count += 1;
-    console.log(count);
 }
 
