@@ -32,7 +32,7 @@ serialPort.on("open", function () {
         //     console.log(count);
         // }
 
-        if(count >= W_buff.length){
+        if(count > W_buff.length){
             count = 0;
             serialPort.flush();
             serialPort.close();
@@ -47,9 +47,9 @@ function gsm_message_sending(count) {
     //     console.log(message)
     // }
     setTimeout(function(){
-        if(count == W_buff.length){
+        if(count == W_buff.length - 1){
             setTimeout(function(){
-                // serialPort.write(W_buff[count]);
+                serialPort.write(W_buff[count]);
                 serialPort.write(Buffer.from([0x1A]));
                 serialPort.write("\x1a\r\n");
                 serialPort.drain()
