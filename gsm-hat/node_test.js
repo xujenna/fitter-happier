@@ -47,10 +47,9 @@ function gsm_message_sending(count) {
     //     console.log(message)
     // }
     setTimeout(function(){
-        if(count == W_buff.length - 1){
-            console.log("length - 1")
+        if(count == W_buff.length){
             setTimeout(function(){
-                serialPort.write(W_buff[count]);
+                // serialPort.write(W_buff[count]);
                 serialPort.write(Buffer.from([0x1A]));
                 serialPort.write("\x1a\r\n");
                 serialPort.drain()
