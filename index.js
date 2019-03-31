@@ -33,18 +33,16 @@ const Interactions = require('./extensions/interactions')
 
 const interventions = {
     'stress' : [
-        {'meditations': Meditations}
+        {'meditations': Meditations},
         {'cuteThings': CuteThings},
         {'poetry': Poetry},
         {'videos': Videos},
         {'exercises': Exercises}
         // random location
-        // piano
     ],
     'morale': [
         {'poetry': Poetry},
         {'videos': Videos}
-        // chinese
     ],
     'mood': [
         {'meditations': Meditations}, // play audio for this
@@ -59,16 +57,16 @@ const interventions = {
 
 database.predictionsRef.on("child_added", function(snapshot){
     let newPost = snapshot.val();
-    let fatiguePrediction = newPost.LSTM_fatigue_prediction;
-    let moodPrediction = newPost.LSTM_mood_prediction;
-    let moralePrediction = newPost.LSTM_morale_prediction;
-    let stressPrediction = newPost.LSTM_stress_prediction;
-    let timestamp = newPost.timestamp;
-    
     let currentTime = + new Date();
+    let timestamp = newPost.timestamp;
 
-    if((currentTime / 1000) - timestamp <= 3600){
+    if((currentTime / 1000) - timestamp <= 2800){
         console.log(newPost)
+
+        let fatiguePrediction = newPost.LSTM_fatigue_prediction;
+        let moodPrediction = newPost.LSTM_mood_prediction;
+        let moralePrediction = newPost.LSTM_morale_prediction;
+        let stressPrediction = newPost.LSTM_stress_prediction;
 
         if(fatiguePrediction > 3.5 && new Date().getHours() < 7){
             textToSpeech.say("You should go to sleep.")

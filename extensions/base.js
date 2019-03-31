@@ -11,7 +11,7 @@ class Intervention {
 
     async execute() {
         const result = await this.trigger(this.marker, this.intervention, this.timestamp, this.prediction)
-        console.log("execute " + result)
+        console.log("execute " + result.title + ", " + result.script)
         this.logIntervention(this.marker, this.intervention, this.timestamp, this.prediction, result)
         textToSpeech.say(`${this.getScript(result.script)}`)
         return true

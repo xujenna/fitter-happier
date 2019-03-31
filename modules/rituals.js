@@ -40,7 +40,7 @@ function setRitualAlarms(sunTimes){
     var randomQuestionRule = new schedule.RecurrenceRule();
     // let randomHour = parseInt(sunTimes.sunrise.getMinutes().toString().split('').pop())
     randomQuestionRule.hour = sunSalutationRule.hour + Math.round(Math.random() * 4) + 1;
-    randomQuestionRule.minute = sunTimes.night.getMinutes() + 30;
+    randomQuestionRule.minute = sunTimes.night.getMinutes();
 
     console.log("random question: " + randomQuestionRule.hour + ":"+randomQuestionRule.minute)
 
@@ -85,17 +85,33 @@ function setRitualAlarms(sunTimes){
                 return "Check your e-mail!"
             }
         })
-        interactionInfo['title'] = "joke"
-        interactionInfo['script'] = newJoke
 
         textToSpeech.say("Tell someone this joke: " + newJoke)
-
         emailer.emailContent("Tell someone this joke", newJoke)
 
         database.ritualsRef.push().set({
             timestamp: + new Date() / 1000,
             ritual: "random joke",
             content: newJoke
+        })
+    }
+
+    // daily Chinese
+    var dailyChineseRule = new schedule.RecurrenceRule();
+    let randomHour3 = Math.round(Math.random() * 2) + 1
+    dailyChineseRule.hour = sunTimes.solarNoon.getHours() - randomHour3;
+    dailyChineseRule.minute = sunTimes.sunrise.getMinutes();
+
+    console.log("daily chinese practice: " + dailyChineseRule.hour + ":"+dailyChineseRule.minute)
+    schedule.scheduleJob(dailyChineseRule, practiceChinese);
+
+    async function practiceChinese(){
+        textToSpeech.say("do a chinese lesson")
+
+        database.ritualsRef.push().set({
+            timestamp: + new Date() / 1000,
+            ritual: "daily chinese practice",
+            content: "duolingo lesson"
         })
     }
 }

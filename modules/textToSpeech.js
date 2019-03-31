@@ -23,7 +23,7 @@ async function say(something){
         playlist.push('output'+i+'.wav');
 
         const request = {
-            input: {ssml: sayThis},
+            input: {ssml: "Hey Jenna, <break time='1s'/>" + sayThis},
             voice: {languageCode: 'en-US', name: 'en-GB-Standard-D', ssmlGender: 'NEUTRAL'},
             audioConfig: {audioEncoding: 'LINEAR16'},
         };

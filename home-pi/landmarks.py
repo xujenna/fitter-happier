@@ -11,3 +11,4 @@ randomPage = data['query']['pages'][randomKey]
 randomPlace = randomPage['title']
 randomPlaceFormatted = randomPlace.replace(" ", "_")
 placePage = "https://en.wikipedia.org/wiki/" + randomPlaceFormatted
+print(placePage)
