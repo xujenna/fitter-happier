@@ -2,7 +2,7 @@ const SerialPort = require("serialport")
 const serialPort = new SerialPort("/dev/ttyS0", { lock: false });
 const Readline = require('@serialport/parser-readline')
 
-let W_buff = ["AT+CMGF=1\r\n", "AT+CSCA=\"+12063130004\"\r\n", "AT+CSCS=\"GSM\"\r\n", "AT+CMGS=\"16307308188\"\r\n","hey girl\r\n"]
+let W_buff = ["AT+CMGF=1\r\n", "AT+CSCS?\r\n", "AT+CMGF?\r\n", "AT+CSCA=\"+12063130004\"\r\n", "AT+CSCS=\"GSM\"\r\n", "AT+CMGS=\"16307308188\"\r\n","hey girl\r\n"]
 
 let count = 0;
 
