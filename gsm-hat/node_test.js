@@ -21,7 +21,6 @@ serialPort.on("open", function () {
         console.log("parsed data: " + data);
         // if(data.includes("OK")){
             gsm_message_sending(count)
-            count += 1;
             console.log(count);
         // }
         // else if (data.includes("ERROR")){
@@ -58,6 +57,8 @@ function gsm_message_sending(count) {
         else if (count < W_buff.length - 1){
             serialPort.write(W_buff[count])
             serialPort.drain()
+            count += 1;
+
             //, function(err){
                 // console.log("error, resending?" + err)
                 // setTimeout(function(){
