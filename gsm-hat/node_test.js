@@ -2,7 +2,8 @@ const SerialPort = require("serialport")
 const serialPort = new SerialPort("/dev/ttyS0", { lock: false });
 const Readline = require('@serialport/parser-readline')
 
-let W_buff = ["AT+CMGF=1\r\n", "AT+CSCA=\"+12063130004\"\r\n", "AT+CSCS=\"GSM\"\r\n", "AT+CMGS=\"16307308188\"\r\n","hey girl\r\n"]
+// let W_buff = ["AT+CMGF=1\r\n", "AT+CSCA=\"+12063130004\"\r\n", "AT+CSCS=\"GSM\"\r\n", "AT+CMGS=\"16307308188\"\r\n","hey girl\r\n"]
+let W_buff = ["AT+CMGF=1\r\n", "AT+CMGS=\"16307308188\"\r\n","hey girl\r\n", "\x1A"]
 
 let count = 0;
 
@@ -50,8 +51,8 @@ function gsm_message_sending(count) {
     setTimeout(function(){
         if(count == W_buff.length - 1){
             setTimeout(function(){
-                serialPort.write(W_buff[count]);
-                serial.write(Buffer([0x1A]));
+                // serialPort.write(W_buff[count]);
+                // serial.write(Buffer([0x1A]));
                 serialPort.write('^z');
                 serialPort.write("\x1a\r\n");
                 serialPort.drain()
