@@ -21,7 +21,7 @@ class Videos extends Intervention {
             let randomVideo = videos['morale']['script'][randomIndex]
             vidInfo['title'] = randomVideo
             emailer.emailContent("Something to hype you up :)", randomVideo)
-            return vidInfo        
+            return vidInfo
         }
     }
 

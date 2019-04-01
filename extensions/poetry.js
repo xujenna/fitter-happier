@@ -1,6 +1,7 @@
 const Intervention = require('./base')
 var poetry = require('../selfcare-scripts/poetry.json');
 const emailer = require('../modules/emailer');
+const textToSpeech = require('../modules/textToSpeech');
 
 class Poetry extends Intervention {
 
