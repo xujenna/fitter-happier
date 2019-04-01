@@ -115,6 +115,15 @@ function setRitualAlarms(sunTimes){
             content: "duolingo lesson"
         })
     }
+
+    emailSchedule(dailyChineseRule, sunSalutationRule, randomQuestionRule, randomJokeRule, sweetLightRule)
+}
+
+function emailSchedule(dailyChineseRule, sunSalutationRule, randomQuestionRule, randomJokeRule, sweetLightRule){
+
+    let emailBody = ["daily chinese practice: " + dailyChineseRule.hour + ":"+dailyChineseRule.minute, "sun salutation: " + sunSalutationRule.hour + ":"+sunSalutationRule.minute, "random question: " + randomQuestionRule.hour + ":"+randomQuestionRule.minute, "random joke: " + randomJokeRule.hour + ":"+randomJokeRule.minute, "sweet light: " + sweetLightRule.hour + ":"+sweetLightRule.minute]
+
+    emailer.emailContent("Here's today's ritual schedule", emailBody)
 }
 
 module.exports = {
