@@ -81,8 +81,7 @@ function setRitualAlarms(sunTimes){
                 emailer.emailContent(jokeTitle, jokeText)
                 return riddleTitle + " <break time='5s'/>" + riddleText
             } catch (error) {
-                emailer.emailContent("Share a random joke", "https://www.reddit.com/r/Jokes/")
-                return "Check your e-mail!"
+                return "https://www.reddit.com/r/Jokes/"
             }
         })
 

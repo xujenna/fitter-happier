@@ -51,7 +51,7 @@ class Interactions extends Intervention {
                         let jokeTitle = json['data']['children'][randomIndex]['data']['title']
                         let jokeText = json['data']['children'][randomIndex]['data']['selftext']
                         emailer.emailContent(jokeTitle, jokeText)
-                        return riddleTitle + " <break time='5s'/>" + riddleText
+                        return jokeTitle + " <break time='5s'/>" + jokeText
                     } catch (error) {
                         emailer.emailContent("Share a random joke", "https://www.reddit.com/r/Jokes/")
                         return "Check your e-mail!"
