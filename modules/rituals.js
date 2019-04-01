@@ -13,6 +13,7 @@ function setRitualAlarms(sunTimes){
     console.log("sun salutation: " + sunSalutationRule.hour + ":"+sunSalutationRule.minute)
     schedule.scheduleJob(sunSalutationRule, function(){
         textToSpeech.say("Go out for your sun salutation.")
+        emailer.emailContent("Go out for your sun salutation.", "Do it!")
 
         database.ritualsRef.push().set({
             timestamp: + new Date() / 1000,
@@ -27,12 +28,13 @@ function setRitualAlarms(sunTimes){
     sweetLightRule.minute = new Date(sunTimes.goldenHour - (15 * 60000)).getMinutes();
     console.log("sweet light: " + sweetLightRule.hour + ":"+sweetLightRule.minute)
     schedule.scheduleJob(sweetLightRule, function(){
-        textToSpeech.say("Sweet light starts in ten minutes. Go out and meet your step goal.")
-        
+        textToSpeech.say("Go out and meet your step goal.")
+        emailer.emailContent("Go out and meet your step goal.", "Do it!")
+
         database.ritualsRef.push().set({
             timestamp: + new Date() / 1000,
             ritual: "sweet light walk",
-            content: "Sweet light starts in ten minutes. Go out and meet your step goal."
+            content: "Go out and meet your step goal."
         })
     })
 
@@ -49,7 +51,6 @@ function setRitualAlarms(sunTimes){
         let randomQ = rituals['social']['questions'][randomNum]
 
         textToSpeech.say("Count to " +randomNum+ " people and ask them, " +randomQ)
-
         emailer.emailContent(("Question for person #" +randomNum), randomQ)
 
         database.ritualsRef.push().set({
@@ -106,6 +107,7 @@ function setRitualAlarms(sunTimes){
 
     async function practiceChinese(){
         textToSpeech.say("do a chinese lesson")
+        emailer.emailContent("Do a Chinese lesson", "Do it!")
 
         database.ritualsRef.push().set({
             timestamp: + new Date() / 1000,
