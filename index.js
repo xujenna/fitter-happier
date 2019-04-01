@@ -68,7 +68,7 @@ database.predictionsRef.on("child_added", function(snapshot){
         let moralePrediction = newPost.LSTM_morale_prediction;
         let stressPrediction = newPost.LSTM_stress_prediction;
 
-        if(fatiguePrediction > 3.5 && new Date().getHours() < 7){
+        if(fatiguePrediction > 3.4 && new Date().getHours() < 7){
             textToSpeech.say("You should go to sleep.")
             database.interventionsRef.push().set({
                 timestamp: + timestamp,
@@ -78,16 +78,16 @@ database.predictionsRef.on("child_added", function(snapshot){
                 content: "You should go to sleep."
             })
         }
-        else if (fatiguePrediction > 3.5){
+        else if (fatiguePrediction > 3.4){
             selectIntervention("fatigue", fatiguePrediction, timestamp)
         }
-        else if(stressPrediction > 1.9){
+        else if(stressPrediction > 1.8){
             selectIntervention("stress", stressPrediction, timestamp)
         }
-        else if(moralePrediction < 2.7){
+        else if(moralePrediction < 2.8){
             selectIntervention("morale", moralePrediction, timestamp)
         }
-        else if(moodPrediction < 2.7){
+        else if(moodPrediction < 2.75){
             selectIntervention("mood", moodPrediction, timestamp)
         }
     }
