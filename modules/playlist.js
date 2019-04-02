@@ -1,5 +1,4 @@
 const player = require('play-sound')(opts = {})
-var exec = require('child_process').execSync;
 
 let playQueue = []
 let callbackQueue = []
@@ -28,12 +27,7 @@ function addToPlayQueue(file, callback) {
 
 function playFile(file, playingFromQueue) {
     // play file with callback
-    if(!file.includes(".wav")){
-        exec("espeak " + file + " --stdout | aplay -D bluealsa:HCI=hci0,DEV=00:00:00:00:88:C8,PROFILE=a2dp")
-    }
-    else{
-        player.play(file, { aplay: ['-D', 'bluealsa:HCI=hci0,DEV=00:00:00:00:88:C8,PROFILE=a2dp'], timeout: playingFromQueue ? PLAYLIST_DELAY : 0 }, onPlayDone);
-    }
+    player.play(file, { aplay: ['-D', 'bluealsa:HCI=hci0,DEV=00:00:00:00:88:C8,PROFILE=a2dp'], timeout: playingFromQueue ? PLAYLIST_DELAY : 0 }, onPlayDone);
     // player.play(file, { timeout: playingFromQueue ? PLAYLIST_DELAY : 0 }, onPlayDone);
 
     // remove first file from queue (just played)
