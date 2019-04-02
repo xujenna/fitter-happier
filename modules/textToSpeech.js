@@ -1,5 +1,6 @@
 const fs = require('fs');
 const playlist = require('../modules/playlist');
+var exec = require('child_process').execSync;
 
 // Imports the Google Cloud client library
 const textToSpeech = require('@google-cloud/text-to-speech');
