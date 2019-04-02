@@ -1,4 +1,4 @@
-const Intervention = require('./base')
+const Intervention = require('../extensions/base')
 const rituals = require('../selfcare-scripts/rituals.json')
 const emailer = require('../modules/emailer');
 const fetch = require("node-fetch");

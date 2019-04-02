@@ -97,18 +97,21 @@ database.predictionsRef.on("child_added", function(snapshot){
         else {
             const url = "https://www.reddit.com/r/quotes/new.json?sort=new&limit=100"
     
+            async function getQuote() {
             let newQuote = await fetch(url)
-            .then(res => res.json())
-            .then(json => {
-                let randomIndex = Math.round(Math.random() * json['data']['children'].length)
-                try {
-                    let randomQuote = json['data']['children'][randomIndex]['data']['title']
-                    return randomQuote
-                } catch (error) {
-                    return "Fitter, happier, more productive."
-                }
-            })
-            textToSpeech.say(newQuote)
+                .then(res => res.json())
+                .then(json => {
+                    let randomIndex = Math.round(Math.random() * json['data']['children'].length)
+                    try {
+                        let randomQuote = json['data']['children'][randomIndex]['data']['title']
+                        return randomQuote
+                    } catch (error) {
+                        return "Fitter, happier, more productive."
+                    }
+                })
+                textToSpeech.say(newQuote)
+            }
+            getQuote()
         }
     }
 });
