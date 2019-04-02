@@ -11,7 +11,7 @@ const client = new textToSpeech.TextToSpeechClient();
 
 async function say(something){
     if(!something.includes(".wav")){
-        exec("espeak " + file + " --stdout | aplay -D bluealsa:HCI=hci0,DEV=00:00:00:00:88:C8,PROFILE=a2dp")
+        exec("espeak " + something + " --stdout | aplay -D bluealsa:HCI=hci0,DEV=00:00:00:00:88:C8,PROFILE=a2dp")
     }
     else{
         let arrayTranscript = [];
