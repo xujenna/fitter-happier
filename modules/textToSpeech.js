@@ -8,17 +8,15 @@ const textToSpeech = require('@google-cloud/text-to-speech');
 // Creates a client
 const client = new textToSpeech.TextToSpeechClient();
 
-
 async function say(something){
     if(!something.includes(".wav") && !something.includes(".mp3")){
-        exec("espeak \"" + something + "\" -v en-gb --stdout | aplay -D bluealsa:HCI=hci0,DEV=00:00:00:00:88:C8,PROFILE=a2dp")
+        exec("espeak \" Hey Jenna, " + something + "\" -v en-gb --stdout | aplay -D bluealsa:HCI=hci0,DEV=00:00:00:00:88:C8,PROFILE=a2dp")
     }
     else{
-        exec("aplay ")
+        exec("espeak \" Hey Jenna, listen to this.\" -v en-gb --stdout | aplay -D bluealsa:HCI=hci0,DEV=00:00:00:00:88:C8,PROFILE=a2dp")
+        exec("aplay -D bluealsa:HCI=hci0,DEV=00:00:00:00:88:C8,PROFILE=a2dp " + something)
     }
-
 }
-
 
 function playAudio(file) {
     playlist.addToPlayQueue(file);

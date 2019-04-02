@@ -4,6 +4,10 @@ const database = require('./modules/datastore');
 const textToSpeech = require('./modules/textToSpeech');
 const schedule = require('node-schedule');
 const rituals = require('./modules/rituals')
+const fetch = require("node-fetch");
+
+
+textToSpeech.say("Hey Jenna, I'm awake now.")
 
 // RITUALS
 // get sun times on run, schedule rituals
@@ -78,17 +82,33 @@ database.predictionsRef.on("child_added", function(snapshot){
                 content: "You should go to sleep."
             })
         }
-        else if (fatiguePrediction > 3.4){
+        else if (fatiguePrediction > 3.3){
             selectIntervention("fatigue", fatiguePrediction, timestamp)
         }
         else if(stressPrediction > 1.8){
             selectIntervention("stress", stressPrediction, timestamp)
         }
-        else if(moralePrediction < 2.8){
+        else if(moralePrediction < 2.9){
             selectIntervention("morale", moralePrediction, timestamp)
         }
-        else if(moodPrediction < 2.75){
+        else if(moodPrediction < 2.8){
             selectIntervention("mood", moodPrediction, timestamp)
+        }
+        else {
+            const url = "https://www.reddit.com/r/quotes/new.json?sort=new&limit=100"
+    
+            let newQuote = await fetch(url)
+            .then(res => res.json())
+            .then(json => {
+                let randomIndex = Math.round(Math.random() * json['data']['children'].length)
+                try {
+                    let randomQuote = json['data']['children'][randomIndex]['data']['title']
+                    return randomQuote
+                } catch (error) {
+                    return "Fitter, happier, more productive."
+                }
+            })
+            textToSpeech.say(newQuote)
         }
     }
 });
