@@ -41,7 +41,7 @@ function setRitualAlarms(sunTimes){
     // random question
     var randomQuestionRule = new schedule.RecurrenceRule();
     // let randomHour = parseInt(sunTimes.sunrise.getMinutes().toString().split('').pop())
-    randomQuestionRule.hour = sunSalutationRule.hour + Math.round(Math.random() * 4) + 1;
+    randomQuestionRule.hour = sunSalutationRule.hour + Math.round(Math.random() * 2) + 2;
     randomQuestionRule.minute = sunTimes.night.getMinutes();
 
     console.log("random question: " + randomQuestionRule.hour + ":"+randomQuestionRule.minute)
@@ -70,7 +70,7 @@ function setRitualAlarms(sunTimes){
 
     schedule.scheduleJob(randomJokeRule, getJoke);
     async function getJoke(){
-        const url = "https://www.reddit.com/r/Jokes/new.json?sort=new&limit=100"
+        const url = "https://www.reddit.com/r/Jokes/top.json?sort=top&limit=100"
 
         let newJoke = await fetch(url)
         .then(res => res.json())

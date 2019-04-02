@@ -7,8 +7,8 @@ class Interactions extends Intervention {
 
     async trigger() {
         let interactionInfo = {}
-        const riddlesUrl = "https://www.reddit.com/r/riddles/new.json?sort=new&limit=100"
-        const jokesUrl = "https://www.reddit.com/r/Jokes/new.json?sort=new&limit=100"
+        const riddlesUrl = "https://www.reddit.com/r/riddles/top.json?sort=top&limit=100"
+        const jokesUrl = "https://www.reddit.com/r/Jokes/top.json?sort=top&limit=100"
 
         const directions = ["forward", "backward", "left", "right"];
         const instructions = "Take " + Math.round(Math.random() * 10) + " steps " + directions[(Math.round(Math.random() * (directions.length-1)))] + ", " + Math.round(Math.random() * 10) + " steps " + directions[Math.round(Math.random() * (directions.length-1))] + ", and "

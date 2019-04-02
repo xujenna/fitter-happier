@@ -10,7 +10,8 @@ const client = new textToSpeech.TextToSpeechClient();
 
 async function say(something){
     if(!something.includes(".wav") && !something.includes(".mp3")){
-        exec("espeak \" Hey Jenna, " + something + "\" -v en-gb --stdout | aplay -D bluealsa:HCI=hci0,DEV=00:00:00:00:88:C8,PROFILE=a2dp")
+        var sayThis = something.replace(/["]+/g, '\"');
+        exec("espeak \" Hey Jenna, " + sayThis + "\" -v en-gb --stdout | aplay -D bluealsa:HCI=hci0,DEV=00:00:00:00:88:C8,PROFILE=a2dp")
     }
     else{
         exec("espeak \" Hey Jenna, listen to this.\" -v en-gb --stdout | aplay -D bluealsa:HCI=hci0,DEV=00:00:00:00:88:C8,PROFILE=a2dp")
