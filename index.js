@@ -54,6 +54,7 @@ const interventions = {
         {'exercises': Exercises}
     ]
 }
+textToSpeech.say("hey jenna what's up")
 
 database.predictionsRef.on("child_added", function(snapshot){
     let newPost = snapshot.val();
