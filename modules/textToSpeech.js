@@ -10,53 +10,11 @@ const client = new textToSpeech.TextToSpeechClient();
 
 
 async function say(something){
-    if(!something.includes(".wav")){
-        exec("espeak \"" + something + "\" --stdout | aplay -D bluealsa:HCI=hci0,DEV=00:00:00:00:88:C8,PROFILE=a2dp")
+    if(!something.includes(".wav") && !something.includes(".mp3")){
+        exec("espeak \"" + something + "\" -v en-gb --stdout | aplay -D bluealsa:HCI=hci0,DEV=00:00:00:00:88:C8,PROFILE=a2dp")
     }
     else{
-        let arrayTranscript = [];
-        let playlist = [];
-        if(typeof something == "string"){
-            arrayTranscript.push(something)
-        }
-        else{
-            arrayTranscript = something
-        }
-    
-        arrayTranscript.forEach((d,i) =>{
-            var sayThis = d.replace(/["]+/g, '\"');
-            playlist.push('output'+i+'.wav');
-    
-            const request = {
-                input: {ssml: "Hey Jenna, <break time='1s'/>" + sayThis},
-                voice: {languageCode: 'en-US', name: 'en-GB-Standard-D', ssmlGender: 'NEUTRAL'},
-                audioConfig: {audioEncoding: 'LINEAR16'},
-            };
-            // console.log(d);
-        
-            // Performs the Text-to-Speech request
-            client.synthesizeSpeech(request, (err, response) => {
-                if (err) {
-                    console.error('ERROR:', err);
-                    return;
-                }
-            
-                // Write the binary audio content to a local file
-                fs.writeFile('output'+i+'.wav', response.audioContent, 'binary', err => {
-                if (err) {
-                    console.error('ERROR:', err);
-                    return;
-                }
-                if(i == arrayTranscript.length-1){
-                    console.log(playlist)
-                    playlist.forEach(d=>{
-                        playAudio(d)
-                    })
-                }
-                });
-            });
-    
-        })
+        exec("aplay ")
     }
 
 }
@@ -70,3 +28,50 @@ function playAudio(file) {
 module.exports = {
     say: say
 }
+
+
+// old google cloud TTS 
+
+// let arrayTranscript = [];
+// let playlist = [];
+// if(typeof something == "string"){
+//     arrayTranscript.push(something)
+// }
+// else{
+//     arrayTranscript = something
+// }
+
+// arrayTranscript.forEach((d,i) =>{
+//     var sayThis = d.replace(/["]+/g, '\"');
+//     playlist.push('output'+i+'.wav');
+
+//     const request = {
+//         input: {ssml: "Hey Jenna, <break time='1s'/>" + sayThis},
+//         voice: {languageCode: 'en-US', name: 'en-GB-Standard-D', ssmlGender: 'NEUTRAL'},
+//         audioConfig: {audioEncoding: 'LINEAR16'},
+//     };
+//     // console.log(d);
+
+//     // Performs the Text-to-Speech request
+//     client.synthesizeSpeech(request, (err, response) => {
+//         if (err) {
+//             console.error('ERROR:', err);
+//             return;
+//         }
+    
+//         // Write the binary audio content to a local file
+//         fs.writeFile('output'+i+'.wav', response.audioContent, 'binary', err => {
+//         if (err) {
+//             console.error('ERROR:', err);
+//             return;
+//         }
+//         if(i == arrayTranscript.length-1){
+//             console.log(playlist)
+//             playlist.forEach(d=>{
+//                 playAudio(d)
+//             })
+//         }
+//         });
+//     });
+
+// })
