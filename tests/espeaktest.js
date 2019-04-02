@@ -1,2 +1,2 @@
-const TTS_espeak = require('./tests/TTS_espeak')
+const TTS_espeak = require('./TTS_espeak')
 TTS_espeak.say("hey jenna")
