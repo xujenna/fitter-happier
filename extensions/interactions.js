@@ -10,10 +10,13 @@ class Interactions extends Intervention {
         const riddlesUrl = "https://www.reddit.com/r/riddles/new.json?sort=new&limit=100"
         const jokesUrl = "https://www.reddit.com/r/Jokes/new.json?sort=new&limit=100"
 
+        const directions = ["forward", "backward", "left", "right"];
+        const instructions = "Take " + Math.round(Math.random() * 10) + " steps " + directions[(Math.round(Math.random() * (directions.length-1)))] + ", " + Math.round(Math.random() * 10) + " steps " + directions[Math.round(Math.random() * (directions.length-1))] + ", and "
+
         switch(Math.round(Math.random() * 3)){
             case 0:
                 interactionInfo['title'] = "compliment"
-                interactionInfo['script'] = `Give someone a compliment`
+                interactionInfo['script'] = instructions + "compliment the first person in front of you."
                 break;
             case 1:
                 let randomNum = Math.round(Math.random() * (rituals['social']['questions'].length - 1))
@@ -22,7 +25,7 @@ class Interactions extends Intervention {
                 emailer.emailContent("Ask someone this question", randomQ)
 
                 interactionInfo['title'] = `question: ${randomQ}`
-                interactionInfo['script'] = `Ask someone this question: ${randomQ}`
+                interactionInfo['script'] = instructions + `ask this question: ${randomQ}`
                 break;
             case 2:
                 let newRiddle = await fetch(riddlesUrl)
@@ -40,7 +43,7 @@ class Interactions extends Intervention {
                     }
                 })
                 interactionInfo['title'] = `riddle: ${newRiddle}`
-                interactionInfo['script'] = newRiddle
+                interactionInfo['script'] = instructions + `ask this riddle: ${newRiddle}`
                 break;
             case 3:
                 let newJoke = await fetch(jokesUrl)
@@ -58,7 +61,7 @@ class Interactions extends Intervention {
                     }
                 })
                 interactionInfo['title'] = `random joke: ${newJoke}`
-                interactionInfo['script'] = newJoke
+                interactionInfo['script'] = instructions + `tell them this joke: ${newJoke}`
                 break;
             case 4:
                 interactionInfo['title'] = "gratitude"

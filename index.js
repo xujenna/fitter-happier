@@ -7,7 +7,7 @@ const rituals = require('./modules/rituals')
 const fetch = require("node-fetch");
 
 
-textToSpeech.say("Hey Jenna, I'm awake now.")
+textToSpeech.say("I'm awake now.")
 
 // RITUALS
 // get sun times on run, schedule rituals
