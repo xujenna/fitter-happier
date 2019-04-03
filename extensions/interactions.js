@@ -31,10 +31,17 @@ class Interactions extends Intervention {
                 let newRiddle = await fetch(riddlesUrl)
                 .then(res => res.json())
                 .then(json => {
-                    let randomIndex = Math.round(Math.random() * json['data']['children'].length)
+                    let shortRiddleIndices = []
+                    for(var i = 0; i < 5; i++){
+                        let randomIndex = Math.round(Math.random() * json['data']['children'].length)
+                        if(json['data']['children'][randomIndex]['data']['selftext'].length < 350){
+                            shortRiddleIndices.push(randomIndex)
+                        }
+                    }
+                    let randomShortIndex = Math.round(Math.random() * 4)
                     try {
-                        let riddleTitle = json['data']['children'][randomIndex]['data']['title']
-                        let riddleText = json['data']['children'][randomIndex]['data']['selftext']
+                        let riddleTitle = json['data']['children'][shortRiddleIndices[randomShortIndex]]['data']['title']
+                        let riddleText = json['data']['children'][shortRiddleIndices[randomShortIndex]]['data']['selftext']
                         emailer.emailContent(riddleTitle, riddleText)
                         return riddleTitle + " " + riddleText
                     } catch (error) {
@@ -61,7 +68,7 @@ class Interactions extends Intervention {
                         let jokeTitle = json['data']['children'][shortJokeIndices[randomShortIndex]]['data']['title']
                         let jokeText = json['data']['children'][shortJokeIndices[randomShortIndex]]['data']['selftext']
                         emailer.emailContent(jokeTitle, jokeText)
-                        return jokeTitle + " <break time='5s'/>" + jokeText
+                        return jokeTitle + "... " + jokeText
                     } catch (error) {
                         emailer.emailContent("Share a random joke", "https://www.reddit.com/r/Jokes/")
                         return "Check your e-mail!"
