@@ -5,7 +5,7 @@ const textToSpeech = require('./modules/textToSpeech');
 const schedule = require('node-schedule');
 const rituals = require('./modules/rituals')
 const fetch = require("node-fetch");
-const selfCareThings = require('../selfcare-scripts/selfCareThings.json')
+const selfCareThings = require('./selfcare-scripts/selfCareThings.json')
 
 
 textToSpeech.say("I'm awake now.")
