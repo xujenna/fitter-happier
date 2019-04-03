@@ -8,7 +8,7 @@ class Interactions extends Intervention {
     async trigger() {
         let interactionInfo = {}
         const riddlesUrl = "https://www.reddit.com/r/riddles/top.json?sort=top&limit=100"
-        const jokesUrl = "https://www.reddit.com/r/Jokes/top.json?sort=top&limit=100"
+        const jokesUrl = "https://www.reddit.com/r/dadjokes/top.json?sort=top&limit=100"
 
         const directions = ["forward", "backward", "left", "right"];
         const instructions = "Take " + Math.round(Math.random() * 10) + " steps " + directions[(Math.round(Math.random() * (directions.length-1)))] + ", " + Math.round(Math.random() * 10) + " steps " + directions[Math.round(Math.random() * (directions.length-1))] + ", and "
@@ -49,10 +49,17 @@ class Interactions extends Intervention {
                 let newJoke = await fetch(jokesUrl)
                 .then(res => res.json())
                 .then(json => {
-                    let randomIndex = Math.round(Math.random() * json['data']['children'].length)
+                    let shortJokeIndices = []
+                    for(var i = 0; i < 5; i++){
+                        let randomIndex = Math.round(Math.random() * json['data']['children'].length)
+                        if(json['data']['children'][randomIndex]['data']['selftext'].length < 350){
+                            shortJokeIndices.push(randomIndex)
+                        }
+                    }
+                    let randomShortIndex = Math.round(Math.random() * 4)
                     try {
-                        let jokeTitle = json['data']['children'][randomIndex]['data']['title']
-                        let jokeText = json['data']['children'][randomIndex]['data']['selftext']
+                        let jokeTitle = json['data']['children'][shortJokeIndices[randomShortIndex]]['data']['title']
+                        let jokeText = json['data']['children'][shortJokeIndices[randomShortIndex]]['data']['selftext']
                         emailer.emailContent(jokeTitle, jokeText)
                         return jokeTitle + " <break time='5s'/>" + jokeText
                     } catch (error) {

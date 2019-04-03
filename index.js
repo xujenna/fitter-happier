@@ -5,6 +5,7 @@ const textToSpeech = require('./modules/textToSpeech');
 const schedule = require('node-schedule');
 const rituals = require('./modules/rituals')
 const fetch = require("node-fetch");
+const selfCareThings = require('../selfcare-scripts/selfCareThings.json')
 
 
 textToSpeech.say("I'm awake now.")
@@ -24,6 +25,10 @@ schedule.scheduleJob(sunTimesRule, function(sunTimes) {
     rituals.setRitualAlarms(sunTimes)
 });
 
+schedule.scheduleJob('*/15 * * * *', function(){
+    let randomThing = selfCareThings["reminders"][Math.round(Math.random() * (selfCareThings["reminders"].length - 1))]
+    textToSpeech.say("When was the last time you " + randomThing + "?")
+  });
 
 // INTERVENTIONS
 // load extensions
