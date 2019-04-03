@@ -39,7 +39,6 @@ const Videos = require('./extensions/videos')
 const Exercises = require('./extensions/exercises')
 const Interactions = require('./extensions/interactions')
 
-
 const interventions = {
     'stress' : [
         {'meditations': Meditations},
