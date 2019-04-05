@@ -25,7 +25,7 @@ schedule.scheduleJob(sunTimesRule, function(sunTimes) {
     rituals.setRitualAlarms(sunTimes)
 });
 
-schedule.scheduleJob('*/15 * * * *', function(){
+schedule.scheduleJob('*/20 * * * *', function(){
     let randomThing = selfCareThings["reminders"][Math.round(Math.random() * (selfCareThings["reminders"].length - 1))]
     textToSpeech.say("When was the last time you " + randomThing + "?")
   });
@@ -76,7 +76,7 @@ database.predictionsRef.on("child_added", function(snapshot){
         let moralePrediction = newPost.LSTM_morale_prediction;
         let stressPrediction = newPost.LSTM_stress_prediction;
 
-        if(fatiguePrediction > 3.4 && new Date().getHours() < 7){
+        if(fatiguePrediction > 3.3 && new Date().getHours() < 7){
             textToSpeech.say("You should go to sleep.")
             database.interventionsRef.push().set({
                 timestamp: + timestamp,
@@ -97,25 +97,6 @@ database.predictionsRef.on("child_added", function(snapshot){
         }
         else if(moodPrediction < 2.8){
             selectIntervention("mood", moodPrediction, timestamp)
-        }
-        else {
-            const url = "https://www.reddit.com/r/quotes/new.json?sort=new&limit=100"
-    
-            async function getQuote() {
-            let newQuote = await fetch(url)
-                .then(res => res.json())
-                .then(json => {
-                    let randomIndex = Math.round(Math.random() * json['data']['children'].length)
-                    try {
-                        let randomQuote = json['data']['children'][randomIndex]['data']['title']
-                        return randomQuote
-                    } catch (error) {
-                        return "Fitter, happier, more productive."
-                    }
-                })
-                textToSpeech.say(newQuote)
-            }
-            getQuote()
         }
     }
 });

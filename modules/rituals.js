@@ -5,6 +5,7 @@ const emailer = require('./emailer');
 const database = require('../modules/datastore');
 const fetch = require("node-fetch");
 
+
 function setRitualAlarms(sunTimes){
     // daily noonday walk
     var sunSalutationRule = new schedule.RecurrenceRule();
