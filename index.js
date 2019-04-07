@@ -5,30 +5,13 @@ const textToSpeech = require('./modules/textToSpeech');
 const schedule = require('node-schedule');
 const rituals = require('./modules/rituals')
 const fetch = require("node-fetch");
-const selfCareThings = require('./selfcare-scripts/selfCareThings.json')
-
 
 textToSpeech.say("I'm awake now.")
 
 // RITUALS
-// get sun times on run, schedule rituals
+// get sun times on boot, schedule rituals
 var sunTimes = SunCalc.getTimes(new Date(), 40.7, -74)
 rituals.setRitualAlarms(sunTimes)
-
-// get daily sun times, schedule rituals every morning
-var sunTimesRule = new schedule.RecurrenceRule();
-sunTimesRule.hour = 10;
-sunTimesRule.minute = 45;
-
-schedule.scheduleJob(sunTimesRule, function(sunTimes) {
-    var sunTimes = SunCalc.getTimes(new Date(), 40.7, -74)
-    rituals.setRitualAlarms(sunTimes)
-});
-
-schedule.scheduleJob('*/20 * * * *', function(){
-    let randomThing = selfCareThings["reminders"][Math.round(Math.random() * (selfCareThings["reminders"].length - 1))]
-    textToSpeech.say("When was the last time you " + randomThing + "?")
-  });
 
 // INTERVENTIONS
 // load extensions

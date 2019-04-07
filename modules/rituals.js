@@ -4,6 +4,7 @@ const textToSpeech = require('../modules/textToSpeech');
 const emailer = require('./emailer');
 const database = require('../modules/datastore');
 const fetch = require("node-fetch");
+const selfCareThings = require('../selfcare-scripts/selfCareThings.json')
 
 
 function setRitualAlarms(sunTimes){
@@ -63,37 +64,41 @@ function setRitualAlarms(sunTimes){
 
     // random joke
     var randomJokeRule = new schedule.RecurrenceRule();
-    let randomHour2 = Math.round(Math.random() * 3)
-    randomJokeRule.hour = sunTimes.dusk.getHours() + randomHour2;
+    // let randomHour2 = Math.round(Math.random() * 3)
+    // randomJokeRule.hour = sunTimes.dusk.getHours() + randomHour2;
     randomJokeRule.minute = sunTimes.dusk.getMinutes();
 
-    console.log("random joke: " + randomJokeRule.hour + ":"+randomJokeRule.minute)
+    console.log("random joke: " + randomJokeRule.minute + " minutes after the hour")
 
     schedule.scheduleJob(randomJokeRule, getJoke);
     async function getJoke(){
-        const url = "https://www.reddit.com/r/Jokes/top.json?sort=top&limit=100"
+        const url = "https://www.reddit.com/r/dadjokes/top.json?sort=top&limit=100"
 
         let newJoke = await fetch(url)
         .then(res => res.json())
         .then(json => {
-            let randomIndex = Math.round(Math.random() * json['data']['children'].length)
-            try {
-                let jokeTitle = json['data']['children'][randomIndex]['data']['title']
-                let jokeText = json['data']['children'][randomIndex]['data']['selftext']
-                emailer.emailContent(jokeTitle, jokeText)
-                return riddleTitle + " <break time='5s'/>" + riddleText
-            } catch (error) {
-                return "https://www.reddit.com/r/Jokes/"
+            let shortJokeIndices = []
+            for(var i = 0; i < 5; i++){
+                let randomIndex = Math.round(Math.random() * json['data']['children'].length)
+                if(json['data']['children'][randomIndex]['data']['selftext'].length < 350){
+                    shortJokeIndices.push(randomIndex)
+                }
             }
+            let jokeTitle = json['data']['children'][shortJokeIndices[1]]['data']['title']
+            let jokeText = json['data']['children'][shortJokeIndices[1]]['data']['selftext']
+            let joke = {
+                jokeTitle: jokeTitle,
+                jokeText: jokeText
+            }
+            return joke
         })
-
-        textToSpeech.say("Tell someone this joke: " + newJoke)
-        emailer.emailContent("Tell someone this joke", newJoke)
+        textToSpeech.say("Tell someone this joke: " + newJoke.jokeTitle + "..." + newJoke.jokeText)
+        emailer.emailContent(newJoke.jokeTitle, newJoke.jokeText)
 
         database.ritualsRef.push().set({
             timestamp: + new Date() / 1000,
             ritual: "random joke",
-            content: newJoke
+            content: newJoke.jokeTitle + "..." + newJoke.jokeText
         })
     }
 
@@ -109,7 +114,6 @@ function setRitualAlarms(sunTimes){
     async function practiceChinese(){
         textToSpeech.say("do a chinese lesson")
         emailer.emailContent("Do a Chinese lesson", "Do it!")
-
         database.ritualsRef.push().set({
             timestamp: + new Date() / 1000,
             ritual: "daily chinese practice",
@@ -117,13 +121,16 @@ function setRitualAlarms(sunTimes){
         })
     }
 
+    schedule.scheduleJob('*/25 * * * *', function(){
+        let randomThing = selfCareThings["reminders"][Math.round(Math.random() * (selfCareThings["reminders"].length - 1))]
+        textToSpeech.say("When was the last time you " + randomThing + "?")
+      });
+
     emailSchedule(dailyChineseRule, sunSalutationRule, randomQuestionRule, randomJokeRule, sweetLightRule)
 }
 
 function emailSchedule(dailyChineseRule, sunSalutationRule, randomQuestionRule, randomJokeRule, sweetLightRule){
-
-    let emailBody = ["daily chinese practice: " + dailyChineseRule.hour + ":"+dailyChineseRule.minute, "sun salutation: " + sunSalutationRule.hour + ":"+sunSalutationRule.minute, "random question: " + randomQuestionRule.hour + ":"+randomQuestionRule.minute, "random joke: " + randomJokeRule.hour + ":"+randomJokeRule.minute, "sweet light: " + sweetLightRule.hour + ":"+sweetLightRule.minute]
-
+    let emailBody = ["daily chinese practice: " + dailyChineseRule.hour + ":"+dailyChineseRule.minute, "sun salutation: " + sunSalutationRule.hour + ":"+sunSalutationRule.minute, "random question: " + randomQuestionRule.hour + ":"+randomQuestionRule.minute, "random joke: " + randomJokeRule.minute + " minutes after the hour", "sweet light: " + sweetLightRule.hour + ":"+sweetLightRule.minute]
     emailer.emailContent("Here's today's ritual schedule", emailBody)
 }
 

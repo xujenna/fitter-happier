@@ -48,6 +48,16 @@
             "title" : "Uptown Funk - Bruno Mars",
             "script" : ["Let's dance to Bruno Mars! Check your e-mail."],
             "link": "https://open.spotify.com/track/32OlwWuMpZ6b0aN2RZOeMS"
+        },
+        {
+            "title" : "Last Nite - The Strokes",
+            "script" : ["Let's dance to The Strokes! Check your e-mail."],
+            "link": "https://open.spotify.com/track/3SUusuA9jH1v6PVwtYMbdv"
+        },
+        {
+            "title" : "Deceptacon - Le Tigre",
+            "script" : ["Let's dance to Le Tigre! Check your e-mail."],
+            "link": "https://open.spotify.com/track/5773KSWFzg9kCc8yazjbSt"
         }
     ]
 }
