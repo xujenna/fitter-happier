@@ -37,7 +37,8 @@ const interventions = {
     ],
     'mood': [
         {'meditations': Meditations}, // play audio for this
-        {'interactions': Interactions} 
+        {'interactions': Interactions},
+        {'exercises': Exercises}
         // random location
     ],
     'fatigue': [

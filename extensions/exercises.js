@@ -4,7 +4,7 @@ const emailer = require('../modules/emailer');
 
 class Exercises extends Intervention {
     async trigger(){
-        if(this.marker == "stress"){ 
+        if(this.marker == "stress" || this.marker == "mood"){ 
             let randomIndex;
             let randomExercise;
             switch(Math.round(Math.random())){

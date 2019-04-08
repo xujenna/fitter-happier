@@ -11,11 +11,22 @@ const client = new textToSpeech.TextToSpeechClient();
 async function say(something){
     if(!something.includes(".wav") && !something.includes(".mp3")){
         var sayThis = something.replace(/["]+/g, '\"');
-        exec("espeak \" Hey Jenna, " + sayThis + "\" -v en-gb --stdout | aplay -D bluealsa:HCI=hci0,DEV=00:00:00:00:88:C8,PROFILE=a2dp")
+        try{
+            exec("espeak \" Hey Jenna, " + sayThis + "\" -v en-gb --stdout | aplay -D bluealsa:HCI=hci0,DEV=00:00:00:00:88:C8,PROFILE=a2dp")
+        }
+        catch{
+            exec("say \"Hey Jenna, " + sayThis + "\"")
+        }
     }
     else{
-        exec("espeak \" Hey Jenna, listen to this.\" -v en-gb --stdout | aplay -D bluealsa:HCI=hci0,DEV=00:00:00:00:88:C8,PROFILE=a2dp")
-        exec("aplay -D bluealsa:HCI=hci0,DEV=00:00:00:00:88:C8,PROFILE=a2dp " + something)
+        try{
+            exec("espeak \" Hey Jenna, listen to this.\" -v en-gb --stdout | aplay -D bluealsa:HCI=hci0,DEV=00:00:00:00:88:C8,PROFILE=a2dp")
+            exec("aplay -D bluealsa:HCI=hci0,DEV=00:00:00:00:88:C8,PROFILE=a2dp " + something)
+        }
+        catch{
+            exec("say \" Hey Jenna, listen to this.")
+            exec("afplay " + something)
+        }
     }
 }
 
