@@ -124,6 +124,11 @@ function setRitualAlarms(sunTimes){
     schedule.scheduleJob('*/25 * * * *', function(){
         let randomThing = selfCareThings["reminders"][Math.round(Math.random() * (selfCareThings["reminders"].length - 1))]
         textToSpeech.say("When was the last time you " + randomThing + "?")
+        database.ritualsRef.push().set({
+            timestamp: + new Date() / 1000,
+            ritual: "random mindfulness",
+            content: "When was the last time you " + randomThing + "?"
+        })
       });
 
     emailSchedule(dailyChineseRule, sunSalutationRule, randomQuestionRule, randomJokeRule, sweetLightRule)
