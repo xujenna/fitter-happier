@@ -12,7 +12,7 @@ async function say(something){
     if(!something.includes(".wav") && !something.includes(".mp3")){
         var sayThis = something.replace(/["]+/g, '\"');
         try{
-            exec("espeak \" Hey Jenna, " + sayThis + "\" -v en-gb --stdout | aplay -D bluealsa:HCI=hci0,DEV=00:00:00:00:88:C8,PROFILE=a2dp")
+            exec("espeak \" Hey Jenna, " + sayThis + "\" -v en-gb --stdout | aplay -D bluealsa:HCI=hci0,DEV=53:B7:C7:01:02:F2,PROFILE=a2dp")
         }
         catch{
             exec("say \"Hey Jenna, " + sayThis + "\"")
@@ -20,8 +20,8 @@ async function say(something){
     }
     else{
         try{
-            exec("espeak \" Hey Jenna, listen to this.\" -v en-gb --stdout | aplay -D bluealsa:HCI=hci0,DEV=00:00:00:00:88:C8,PROFILE=a2dp")
-            exec("aplay -D bluealsa:HCI=hci0,DEV=00:00:00:00:88:C8,PROFILE=a2dp " + something)
+            exec("espeak \" Hey Jenna, listen to this.\" -v en-gb --stdout | aplay -D bluealsa:HCI=hci0,DEV=53:B7:C7:01:02:F2,PROFILE=a2dp")
+            exec("aplay -D bluealsa:HCI=hci0,DEV=53:B7:C7:01:02:F2,PROFILE=a2dp " + something)
         }
         catch{
             exec("say \" Hey Jenna, listen to this.")
