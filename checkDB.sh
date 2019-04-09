@@ -1,6 +1,8 @@
+#!/bin/sh -e
+
 su - pi <<!
 sudo bluetoothctl 
-connect 00:00:00:00:88:C8
+connect 53:B7:C7:01:02:F2
 quit
 ping -q -w 1 -c 1 `ip r | grep default | cut -d ' ' -f 3` > /dev/null && echo ‘ok’ || (python /home/pi/fitter-happier/gsm-hat/GSM_PWRKEY.py && sleep 45)
 cd /home/pi/fitter-happier/
