@@ -58,6 +58,11 @@
             "title" : "Deceptacon - Le Tigre",
             "script" : ["Let's dance to Le Tigre! Check your e-mail."],
             "link": "https://open.spotify.com/track/5773KSWFzg9kCc8yazjbSt"
+        },
+        {
+            "title" : "On + Off - Maggie Rogers",
+            "script" : ["Let's dance to Maggie Rogers! Check your e-mail."],
+            "link": "https://open.spotify.com/track/2kvwSbG26eHKUJdvH7DiR2?si=jPJ9kWDkQ-O4Y8N4nMjH-Q"
         }
     ]
 }

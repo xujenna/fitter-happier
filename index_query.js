@@ -7,7 +7,7 @@ const schedule = require('node-schedule');
 const rituals = require('./modules/rituals')
 const fetch = require("node-fetch");
 
-textToSpeech.say("I'm checking the database.")
+textToSpeech.say("I'm checking for data.")
 
 // RITUALS
 // get sun times on boot, schedule rituals
@@ -56,6 +56,7 @@ database.predictionsRef.orderByChild('timestamp').limitToLast(1).once('value', f
     let lastPostedTimestamp = snapshot.val()[Object.keys(snapshot.val())].timestamp;
 
     if(lastPostedTimestamp == lastReadTimestamp){
+        textToSpeech.say("there was no new data.")
         process.exit();
     }
     else if(lastPostedTimestamp > lastReadTimestamp){
