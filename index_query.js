@@ -7,6 +7,7 @@ const schedule = require('node-schedule');
 const rituals = require('./modules/rituals')
 const fetch = require("node-fetch");
 const selfCareThings = require('./selfcare-scripts/selfCareThings.json')
+const emailer = require('./modules/emailer');
 
 textToSpeech.say("I'm checking for data.")
 
