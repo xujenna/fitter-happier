@@ -6,6 +6,7 @@ const textToSpeech = require('./modules/textToSpeech');
 const schedule = require('node-schedule');
 const rituals = require('./modules/rituals')
 const fetch = require("node-fetch");
+const selfCareThings = require('../selfcare-scripts/selfCareThings.json')
 
 textToSpeech.say("I'm checking for data.")
 
@@ -56,7 +57,7 @@ database.predictionsRef.orderByChild('timestamp').limitToLast(1).once('value', f
     let lastPostedTimestamp = snapshot.val()[Object.keys(snapshot.val())].timestamp;
 
     if(lastPostedTimestamp == lastReadTimestamp){
-        textToSpeech.say("there was no new data.")
+        getJoke();
         process.exit();
     }
     else if(lastPostedTimestamp > lastReadTimestamp){
@@ -96,6 +97,13 @@ database.predictionsRef.orderByChild('timestamp').limitToLast(1).once('value', f
             selectIntervention("mood", moodPrediction, timestamp)
         }
         else{
+            let randomThing = selfCareThings["reminders"][Math.round(Math.random() * (selfCareThings["reminders"].length - 1))]
+            textToSpeech.say("Your mood seems fine! But when was the last time you " + randomThing + "?")
+            database.ritualsRef.push().set({
+                timestamp: + new Date() / 1000,
+                ritual: "random mindfulness",
+                content: "Your mood seems fine! But when was the last time you " + randomThing + "?"
+            })
             process.exit()
         }
     }
@@ -108,4 +116,36 @@ function selectIntervention(marker, prediction, timestamp){
     const selectedIntervention = new SelectedIntervention(marker,intervention,timestamp,prediction)
     selectedIntervention.execute()
     process.exit()
+}
+
+
+async function getJoke(){
+    const url = "https://www.reddit.com/r/dadjokes/top.json?sort=top&limit=100"
+
+    let newJoke = await fetch(url)
+    .then(res => res.json())
+    .then(json => {
+        let shortJokeIndices = []
+        for(var i = 0; i < 5; i++){
+            let randomIndex = Math.round(Math.random() * json['data']['children'].length)
+            if(json['data']['children'][randomIndex]['data']['selftext'].length < 350){
+                shortJokeIndices.push(randomIndex)
+            }
+        }
+        let jokeTitle = json['data']['children'][shortJokeIndices[1]]['data']['title']
+        let jokeText = json['data']['children'][shortJokeIndices[1]]['data']['selftext']
+        let joke = {
+            jokeTitle: jokeTitle,
+            jokeText: jokeText
+        }
+        return joke
+    })
+    textToSpeech.say("Tell someone this joke: " + newJoke.jokeTitle + "..." + newJoke.jokeText)
+    emailer.emailContent(newJoke.jokeTitle, newJoke.jokeText)
+
+    database.ritualsRef.push().set({
+        timestamp: + new Date() / 1000,
+        ritual: "random joke",
+        content: newJoke.jokeTitle + "..." + newJoke.jokeText
+    })
 }
