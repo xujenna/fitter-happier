@@ -52,6 +52,7 @@ database.predictionsRef.orderByChild('timestamp').limitToLast(1).once('value', f
     let lastPostedTimestamp = snapshot.val()[Object.keys(snapshot.val())].timestamp;
 
     if(lastPostedTimestamp == lastReadTimestamp){
+        textToSpeech.say("there's no new data.")
         getJoke();
         process.exit();
     }
