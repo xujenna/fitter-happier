@@ -3,6 +3,7 @@ var schedule = require('node-schedule');
 const textToSpeech = require('./modules/textToSpeech');
 const emailer = require('./modules/emailer');
 const database = require('./modules/datastore');
+const SunCalc = require('suncalc');
 
 // RITUALS
 // get sun times on boot, schedule rituals
