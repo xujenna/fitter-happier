@@ -54,7 +54,6 @@ database.predictionsRef.orderByChild('timestamp').limitToLast(1).once('value', f
     if(lastPostedTimestamp == lastReadTimestamp){
         textToSpeech.say("there's no new data.")
         getJoke();
-        process.exit();
     }
     else if(lastPostedTimestamp > lastReadTimestamp){
         let obj = {
@@ -144,4 +143,5 @@ async function getJoke(){
         ritual: "random joke",
         content: newJoke.jokeTitle + "..." + newJoke.jokeText
     })
+    process.exit()
 }
