@@ -10,11 +10,6 @@ const selfCareThings = require('../selfcare-scripts/selfCareThings.json')
 
 textToSpeech.say("I'm checking for data.")
 
-// RITUALS
-// get sun times on boot, schedule rituals
-var sunTimes = SunCalc.getTimes(new Date(), 40.7, -74)
-rituals.setRitualAlarms(sunTimes)
-
 // INTERVENTIONS
 // load extensions
 const Meditations = require('./extensions/meditations')
