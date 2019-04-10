@@ -1,6 +1,7 @@
 #!/bin/sh
 
 su - pi <<!
+sleep 15
 sudo bluetoothctl 
 connect 53:B7:C7:01:02:F2
 quit
