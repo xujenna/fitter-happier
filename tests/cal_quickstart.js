@@ -1,6 +1,8 @@
 const fs = require('fs');
 const readline = require('readline');
 const {google} = require('googleapis');
+const fetch = require('node-fetch')
+const landmarkList = require('../selfcare-scripts/NYC_landmarks_wiki.json')
 
 // If modifying these scopes, delete token.json.
 const SCOPES = ['https://www.googleapis.com/auth/calendar.readonly'];
@@ -92,3 +94,56 @@ function listEvents(auth) {
     }
   });
 }
+
+
+async function getLandmarks(key){
+
+    let landmarkName = landmarkList['query']['pages'][key]['title']
+    let formattedLandmark = encodeURI(landmarkName.replace(" ", "_"));
+    const url = "https://en.wikipedia.org/api/rest_v1/page/summary/" + formattedLandmark
+    
+    let landmarkInfo = await fetch(url)
+    .then(res => res.json())
+    .then(json => {
+        try{
+            let lat = json['coordinates']['lat']
+            let long = json['coordinates']['lon']
+            let latLong = lat + "," + long
+            let description = json['extract']
+            let landmarkInfo = {
+                name: landmarkName,
+                latLong: latLong,
+                description: description
+            }
+            return landmarkInfo
+        }
+        catch{
+            return null;
+        }
+    })
+
+    if(landmarkInfo !== null){
+        addEvent(landmarkInfo)
+    }
+}
+
+function addEvent(landmarkInfo) {
+    var event = {
+        'summary': landmarkInfo.name,
+        'location': landmarkInfo.latLong,
+        'description': landmarkInfo.description,
+    }
+
+    console.log(event)     
+    // database.ritualsRef.push().set({
+    //     timestamp: + new Date() / 1000,
+    //     ritual: "random joke",
+    //     content: newJoke.jokeTitle + "..." + newJoke.jokeText
+    // })
+}
+
+let keys = Object.keys(landmarkList['query']['pages'])
+
+keys.forEach(key =>{
+    getLandmarks(key)
+})
