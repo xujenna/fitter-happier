@@ -19,6 +19,7 @@ const Poetry = require('./extensions/poetry')
 const Videos = require('./extensions/videos')
 const Exercises = require('./extensions/exercises')
 const Interactions = require('./extensions/interactions')
+const FieldTrip = require('./extensions/fieldtrip')
 
 const interventions = {
     'stress' : [
@@ -26,22 +27,24 @@ const interventions = {
         {'cuteThings': CuteThings},
         {'poetry': Poetry},
         {'videos': Videos},
-        {'exercises': Exercises}
-        // random location
+        {'exercises': Exercises},
+        {'fieldTrip': FieldTrip}
     ],
     'morale': [
         {'poetry': Poetry},
-        {'videos': Videos}
+        {'videos': Videos},
+        {'fieldTrip': FieldTrip}
     ],
     'mood': [
         {'meditations': Meditations},
         {'interactions': Interactions},
-        {'exercises': Exercises}
-        // random location
+        {'exercises': Exercises},
+        {'fieldTrip': FieldTrip}
     ],
     'fatigue': [
         {'exercises': Exercises},
-        {'videos': Videos}
+        {'videos': Videos},
+        {'interactions': Interactions}
     ]
 }
 

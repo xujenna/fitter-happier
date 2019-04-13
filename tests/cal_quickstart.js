@@ -2,6 +2,8 @@ const fs = require('fs');
 const readline = require('readline');
 const {google} = require('googleapis');
 const fetch = require('node-fetch')
+const database = require('../modules/datastore');
+
 const landmarkList = require('../selfcare-scripts/NYC_landmarks_wiki.json')
 let keys = Object.keys(landmarkList['query']['pages'])
 
@@ -16,7 +18,7 @@ const TOKEN_PATH = 'token.json';
 fs.readFile('../home-pi/credentials.json', (err, content) => {
   if (err) return console.log('Error loading client secret file:', err);
   // Authorize a client with credentials, then call the Google Calendar API.
-  authorize(JSON.parse(content), getLandmarks(keys[20], 20));
+  authorize(JSON.parse(content), start);
 });
 
 /**
@@ -73,37 +75,51 @@ function getAccessToken(oAuth2Client, callback) {
  * Lists the next 10 events on the user's primary calendar.
  * @param {google.auth.OAuth2} auth An authorized OAuth2 client.
  */
-function listEvents(auth) {
-  const calendar = google.calendar({version: 'v3', auth});
-  calendar.events.list({
-    calendarId: 'primary',
-    timeMin: (new Date()).toISOString(),
-    maxResults: 10,
-    singleEvents: true,
-    orderBy: 'startTime',
-  }, (err, res) => {
-    if (err) return console.log('The API returned an error: ' + err);
-    const events = res.data.items;
-    if (events.length) {
-      console.log('Upcoming 10 events:');
-      events.map((event, i) => {
-        const start = event.start.dateTime || event.start.date;
-        console.log(`${start} - ${event.summary}`);
-      });
-    } else {
-      console.log('No upcoming events found.');
-    }
-  });
+// function listEvents(auth) {
+//   const calendar = google.calendar({version: 'v3', auth});
+//   calendar.events.list({
+//     calendarId: 'primary',
+//     timeMin: (new Date()).toISOString(),
+//     maxResults: 10,
+//     singleEvents: true,
+//     orderBy: 'startTime',
+//   }, (err, res) => {
+//     if (err) return console.log('The API returned an error: ' + err);
+//     const events = res.data.items;
+//     if (events.length) {
+//       console.log('Upcoming 10 events:');
+//       events.map((event, i) => {
+//         const start = event.start.dateTime || event.start.date;
+//         console.log(`${start} - ${event.summary}`);
+//       });
+//     } else {
+//       console.log('No upcoming events found.');
+//     }
+//   });
+// }
+
+function start(auth){
+    let keys = Object.keys(landmarkList['query']['pages'])
+
+    keys.forEach((key) =>{
+        setTimeout(function(){
+            getLandmarks(key).then(result=> {
+                setTimeout(function(){
+                    if(result !== null && result !== undefined){
+                        addEvent(result,auth)
+                    }
+                }, 10000)
+            })
+        }, 10000)
+    })
 }
 
-
-async function getLandmarks(key,i){
-
+function getLandmarks(key){
     let landmarkName = landmarkList['query']['pages'][key]['title']
     let formattedLandmark = encodeURI(landmarkName.replace(" ", "_"));
     const url = "https://en.wikipedia.org/api/rest_v1/page/summary/" + formattedLandmark
     
-    let landmarkInfo = await fetch(url)
+    let landmarkInfo = fetch(url)
     .then(res => res.json())
     .then(json => {
         try{
@@ -124,35 +140,37 @@ async function getLandmarks(key,i){
     })
 
     if(landmarkInfo !== null){
-        addEvent(landmarkInfo,i)
+        return landmarkInfo
+        // addEvent(landmarkInfo,i, auth)
     }
+
 }
 
 function add_weeks(dt, n) {
     return new Date(dt.setDate(dt.getDate() + (n * 7)));      
  }
 
-dt = new Date();
+// let dt = new Date();
+index = 1;
 
-function addEvent(landmarkInfo,i, auth) {
-    let newDate = add_weeks(dt, i).toISOString();
-
+function addEvent(landmarkInfo, auth) {
+    let newDate = add_weeks(new Date(), index).toISOString();
+    console.log(newDate.substring(0,10))
+    console.log(index)
     var event = {
         'summary': landmarkInfo.name,
         'location': landmarkInfo.latLong,
         'description': landmarkInfo.description,
         'start': {
-            'date': newDate,
+            'date': newDate.substring(0,10),
             'timeZone': 'America/New_York'
         },
         'end': {
-            'date': newDate,
+            'date': newDate.substring(0,10),
             'timeZone': 'America/New_York'
         }
     }
-/**
- * @param {google.auth.OAuth2} auth An authorized OAuth2 client.
- */  
+
     const calendar = google.calendar({version: 'v3', auth});  
     calendar.events.insert({
         auth: auth,
@@ -163,19 +181,14 @@ function addEvent(landmarkInfo,i, auth) {
           console.log('There was an error contacting the Calendar service: ' + err);
           return;
         }
-        console.log('Event created: %s', event.htmlLink);
+        console.log('Event created: %s', event.data.htmlLink);
+        index += 1;
+        // database.ritualsRef.push().set({
+        //     timestamp: + new Date() / 1000,
+        //     ritual: "random joke",
+        //     content: newJoke.jokeTitle + "..." + newJoke.jokeText
+        // })
       });
       
-    // database.ritualsRef.push().set({
-    //     timestamp: + new Date() / 1000,
-    //     ritual: "random joke",
-    //     content: newJoke.jokeTitle + "..." + newJoke.jokeText
-    // })
+
 }
-
-// let keys = Object.keys(landmarkList['query']['pages'])
-
-// keys.forEach((key,i) =>{
-//     getLandmarks(key,i)
-// })
-// getLandmarks(keys[20], 20)
