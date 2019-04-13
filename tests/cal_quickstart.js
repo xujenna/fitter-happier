@@ -3,9 +3,10 @@ const readline = require('readline');
 const {google} = require('googleapis');
 const fetch = require('node-fetch')
 const landmarkList = require('../selfcare-scripts/NYC_landmarks_wiki.json')
+let keys = Object.keys(landmarkList['query']['pages'])
 
 // If modifying these scopes, delete token.json.
-const SCOPES = ['https://www.googleapis.com/auth/calendar.readonly'];
+const SCOPES = ['https://www.googleapis.com/auth/calendar'];
 // The file token.json stores the user's access and refresh tokens, and is
 // created automatically when the authorization flow completes for the first
 // time.
@@ -15,7 +16,7 @@ const TOKEN_PATH = 'token.json';
 fs.readFile('../home-pi/credentials.json', (err, content) => {
   if (err) return console.log('Error loading client secret file:', err);
   // Authorize a client with credentials, then call the Google Calendar API.
-  authorize(JSON.parse(content), listEvents);
+  authorize(JSON.parse(content), getLandmarks(keys[20], 20));
 });
 
 /**
@@ -96,7 +97,7 @@ function listEvents(auth) {
 }
 
 
-async function getLandmarks(key){
+async function getLandmarks(key,i){
 
     let landmarkName = landmarkList['query']['pages'][key]['title']
     let formattedLandmark = encodeURI(landmarkName.replace(" ", "_"));
@@ -123,18 +124,48 @@ async function getLandmarks(key){
     })
 
     if(landmarkInfo !== null){
-        addEvent(landmarkInfo)
+        addEvent(landmarkInfo,i)
     }
 }
 
-function addEvent(landmarkInfo) {
+function add_weeks(dt, n) {
+    return new Date(dt.setDate(dt.getDate() + (n * 7)));      
+ }
+
+dt = new Date();
+
+function addEvent(landmarkInfo,i, auth) {
+    let newDate = add_weeks(dt, i).toISOString();
+
     var event = {
         'summary': landmarkInfo.name,
         'location': landmarkInfo.latLong,
         'description': landmarkInfo.description,
+        'start': {
+            'date': newDate,
+            'timeZone': 'America/New_York'
+        },
+        'end': {
+            'date': newDate,
+            'timeZone': 'America/New_York'
+        }
     }
-
-    console.log(event)     
+/**
+ * @param {google.auth.OAuth2} auth An authorized OAuth2 client.
+ */  
+    const calendar = google.calendar({version: 'v3', auth});  
+    calendar.events.insert({
+        auth: auth,
+        calendarId: 'primary',
+        resource: event,
+      }, function(err, event) {
+        if (err) {
+          console.log('There was an error contacting the Calendar service: ' + err);
+          return;
+        }
+        console.log('Event created: %s', event.htmlLink);
+      });
+      
     // database.ritualsRef.push().set({
     //     timestamp: + new Date() / 1000,
     //     ritual: "random joke",
@@ -142,8 +173,9 @@ function addEvent(landmarkInfo) {
     // })
 }
 
-let keys = Object.keys(landmarkList['query']['pages'])
+// let keys = Object.keys(landmarkList['query']['pages'])
 
-keys.forEach(key =>{
-    getLandmarks(key)
-})
+// keys.forEach((key,i) =>{
+//     getLandmarks(key,i)
+// })
+// getLandmarks(keys[20], 20)

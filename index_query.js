@@ -34,14 +34,14 @@ const interventions = {
         {'videos': Videos}
     ],
     'mood': [
-        {'meditations': Meditations}, // play audio for this
+        {'meditations': Meditations},
         {'interactions': Interactions},
         {'exercises': Exercises}
         // random location
     ],
     'fatigue': [
-        {'poetry': Poetry},
-        {'exercises': Exercises}
+        {'exercises': Exercises},
+        {'videos': Videos}
     ]
 }
 
@@ -83,7 +83,7 @@ database.predictionsRef.orderByChild('timestamp').limitToLast(1).once('value', f
         else if (fatiguePrediction > 3.3){
             selectIntervention("fatigue", fatiguePrediction, timestamp)
         }
-        else if(stressPrediction > 1.8){
+        else if(stressPrediction > 1.7){
             selectIntervention("stress", stressPrediction, timestamp)
         }
         else if(moralePrediction < 2.9){

@@ -42,8 +42,8 @@ const interventions = {
         // random location
     ],
     'fatigue': [
-        {'poetry': Poetry},
-        {'exercises': Exercises}
+        {'exercises': Exercises},
+        {'videos': Videos}
     ]
 }
 
@@ -73,7 +73,7 @@ database.predictionsRef.on("child_added", function(snapshot){
         else if (fatiguePrediction > 3.3){
             selectIntervention("fatigue", fatiguePrediction, timestamp)
         }
-        else if(stressPrediction > 1.8){
+        else if(stressPrediction > 1.7){
             selectIntervention("stress", stressPrediction, timestamp)
         }
         else if(moralePrediction < 2.9){

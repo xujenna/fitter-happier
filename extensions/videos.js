@@ -16,7 +16,7 @@ class Videos extends Intervention {
             emailer.emailContent("Something to calm you down :)", randomVideo)
             return vidInfo
         }
-        else if(this.marker =="morale"){
+        else if(this.marker =="morale" || this.marker =="fatigue"){
             let randomIndex = Math.round(Math.random() * (videos['morale']['script'].length- 1))
             let randomVideo = videos['morale']['script'][randomIndex]
             vidInfo['title'] = randomVideo
