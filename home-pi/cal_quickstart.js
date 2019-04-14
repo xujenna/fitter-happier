@@ -98,20 +98,62 @@ function getAccessToken(oAuth2Client, callback) {
 //   });
 // }
 
-function start(auth){
+function fail(auth){
     let keys = Object.keys(landmarkList['query']['pages'])
 
-    keys.forEach((key) =>{
-        setTimeout(function(){
+    keys.forEach((key, index) => {
+        setTimeout(function() {
             getLandmarks(key).then(result=> {
-                setTimeout(function(){
+                // setTimeout(function(){
                     if(result !== null && result !== undefined){
                         addEvent(result,auth)
                     }
-                }, 10000)
+                // }, 10000)
             })
         }, 10000)
     })
+}
+
+
+function shuffle(a) {
+    var j, x, i;
+    for (i = a.length - 1; i > 0; i--) {
+        j = Math.floor(Math.random() * (i + 1));
+        x = a[i];
+        a[i] = a[j];
+        a[j] = x;
+    }
+    return a;
+}
+
+
+const wowTimeout = timeout => {
+    return new Promise(resolve => setTimeout(resolve, timeout))
+}
+
+const timeout = 1000
+const multiplier = 50
+
+async function start(auth) {
+    let keys = Object.keys(landmarkList['query']['pages']);
+    shuffle(keys);
+
+    for (let index = 0; index < keys.length; index++) {
+        const key = keys[index]
+
+        try {
+            const landmark = await getLandmarks(key)
+            console.log("Landmark:", landmark)
+            
+            if(landmark) {
+                await addEvent(landmark,auth)
+            }
+        } catch (error) {
+            console.log('Failed to get landmark', error)
+        }
+
+        await wowTimeout(timeout + index * multiplier)
+    }
 }
 
 function getLandmarks(key){
@@ -183,12 +225,15 @@ function addEvent(landmarkInfo, auth) {
         }
         console.log('Event created: %s', event.data.htmlLink);
         index += 1;
-        // database.ritualsRef.push().set({
-        //     timestamp: + new Date() / 1000,
-        //     ritual: "random joke",
-        //     content: newJoke.jokeTitle + "..." + newJoke.jokeText
-        // })
-      });
-      
 
+        if(new Date(newDate).getFullYear() == 2019 && new Date(newDate).getMonth() < 6){
+            let timestamp = + new Date(newDate.substring(0,10) + "T17:30:00.000Z")
+            console.log(timestamp)
+            database.ritualsRef.push().set({
+                timestamp: timestamp,
+                ritual: "field trip to " + landmarkInfo.name,
+                content: landmarkInfo.description
+            })
+        }
+    });
 }

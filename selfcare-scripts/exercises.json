@@ -15,16 +15,6 @@
     ],
     "danceTracks": [
         {
-            "title" : "Sun In Our Eyes - MØ",
-            "script" : ["Let's dance to MØ! Check your e-mail."],
-            "link": "https://open.spotify.com/track/58FDNEheGy0rsZskL7dyMm"
-        },
-        {
-            "title" : "Lean on - MØ",
-            "script" : ["Let's dance to MØ! Check your e-mail."],
-            "link": "https://open.spotify.com/track/5wldXGLEOoRXxMWJ8rIUWE"
-        },
-        {
             "title" : "Lisztomania - Phoenix",
             "script" : ["Let's dance to Phoenix! Check your e-mail."],
             "link": "https://open.spotify.com/track/6ZrlXT6mUMEgomN128iekU"
@@ -63,6 +53,16 @@
             "title" : "On + Off - Maggie Rogers",
             "script" : ["Let's dance to Maggie Rogers! Check your e-mail."],
             "link": "https://open.spotify.com/track/2kvwSbG26eHKUJdvH7DiR2?si=jPJ9kWDkQ-O4Y8N4nMjH-Q"
+        },
+        {
+            "title": "Feeling Myself",
+            "script" : ["Let's dance to Niki Minaj! Check your e-mail."],
+            "link": "https://open.spotify.com/track/5fyIGoaaKelzdyW8ELhYJZ"
+        },
+        {
+            "title": "I Like It",
+            "script" : ["Let's dance to Cardi B! Check your e-mail."],
+            "link": "https://open.spotify.com/track/58q2HKrzhC3ozto2nDdN4z"
         }
     ]
 }
