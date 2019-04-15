@@ -98,21 +98,21 @@ function getAccessToken(oAuth2Client, callback) {
 //   });
 // }
 
-function fail(auth){
-    let keys = Object.keys(landmarkList['query']['pages'])
+// function fail(auth){
+//     let keys = Object.keys(landmarkList['query']['pages'])
 
-    keys.forEach((key, index) => {
-        setTimeout(function() {
-            getLandmarks(key).then(result=> {
-                // setTimeout(function(){
-                    if(result !== null && result !== undefined){
-                        addEvent(result,auth)
-                    }
-                // }, 10000)
-            })
-        }, 10000)
-    })
-}
+//     keys.forEach((key, index) => {
+//         setTimeout(function() {
+//             getLandmarks(key).then(result=> {
+//                 // setTimeout(function(){
+//                     if(result !== null && result !== undefined){
+//                         addEvent(result,auth)
+//                     }
+//                 // }, 10000)
+//             })
+//         }, 10000)
+//     })
+// }
 
 
 function shuffle(a) {
