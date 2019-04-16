@@ -72,6 +72,7 @@ database.predictionsRef.orderByChild('timestamp').limitToLast(1).once('value', f
         let moodPrediction = newPost.LSTM_mood_prediction;
         let moralePrediction = newPost.LSTM_morale_prediction;
         let stressPrediction = newPost.LSTM_stress_prediction;
+        let timestamp = newPost.timestamp;
         console.log(newPost)
         console.log(stressPrediction)
 
