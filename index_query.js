@@ -84,7 +84,7 @@ database.predictionsRef.orderByChild('timestamp').limitToLast(1).once('value', f
                 intervention: "oral sleep nudge",
                 content: "You should go to sleep."
             })
-            process.exit()
+            // process.exit()
         }
         else if (fatiguePrediction > 3.3){
             selectIntervention("fatigue", fatiguePrediction, timestamp)
@@ -106,7 +106,7 @@ database.predictionsRef.orderByChild('timestamp').limitToLast(1).once('value', f
                 ritual: "random mindfulness",
                 content: "Your mood seems fine! But when was the last time you " + randomThing + "?"
             })
-            process.exit()
+            // process.exit()
         }
     }
 });
@@ -117,7 +117,7 @@ async function selectIntervention(marker, prediction, timestamp){
     let intervention = Object.keys(interventions[marker][selected])[0]
     const selectedIntervention = new SelectedIntervention(marker,intervention,timestamp,prediction)
     await selectedIntervention.execute();
-    process.exit()
+    // process.exit()
 }
 
 
@@ -150,5 +150,5 @@ async function getJoke(){
         ritual: "random joke",
         content: newJoke.jokeTitle + "..." + newJoke.jokeText
     })
-    process.exit()
+    // process.exit()
 }
