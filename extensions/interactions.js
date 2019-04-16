@@ -42,10 +42,10 @@ class Interactions extends Intervention {
                     try {
                         let riddleTitle = json['data']['children'][shortRiddleIndices[randomShortIndex]]['data']['title']
                         let riddleText = json['data']['children'][shortRiddleIndices[randomShortIndex]]['data']['selftext']
-                        await mailer.emailContent(riddleTitle, riddleText)
+                        mailer.emailContent(riddleTitle, riddleText)
                         return riddleTitle + " " + riddleText
                     } catch (error) {
-                        await emailer.emailContent("Share a random riddle", "https://www.reddit.com/r/riddles/")
+                        emailer.emailContent("Share a random riddle", "https://www.reddit.com/r/riddles/")
                         return "Check your e-mail!"
                     }
                 })
@@ -67,10 +67,10 @@ class Interactions extends Intervention {
                     try {
                         let jokeTitle = json['data']['children'][shortJokeIndices[randomShortIndex]]['data']['title']
                         let jokeText = json['data']['children'][shortJokeIndices[randomShortIndex]]['data']['selftext']
-                        await emailer.emailContent(jokeTitle, jokeText)
+                        emailer.emailContent(jokeTitle, jokeText)
                         return jokeTitle + "... " + jokeText
                     } catch (error) {
-                        await emailer.emailContent("Share a random joke", "https://www.reddit.com/r/Jokes/")
+                        emailer.emailContent("Share a random joke", "https://www.reddit.com/r/Jokes/")
                         return "Check your e-mail!"
                     }
                 })
