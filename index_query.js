@@ -104,7 +104,8 @@ database.predictionsRef.orderByChild('timestamp').limitToLast(1).once('value', f
                 timestamp: + new Date() / 1000,
                 ritual: "random mindfulness",
                 content: "Your mood seems fine! But when was the last time you " + randomThing + "?"
-            }).then(process.exit());
+            })
+            process.exit()
         }
     }
 });
@@ -114,7 +115,8 @@ async function selectIntervention(marker, prediction, timestamp){
     let SelectedIntervention = Object.values(interventions[marker][selected])[0]
     let intervention = Object.keys(interventions[marker][selected])[0]
     const selectedIntervention = new SelectedIntervention(marker,intervention,timestamp,prediction)
-    await selectedIntervention.execute().then(process.exit());
+    await selectedIntervention.execute();
+    process.exit()
 }
 
 
@@ -146,5 +148,6 @@ async function getJoke(){
         timestamp: + new Date() / 1000,
         ritual: "random joke",
         content: newJoke.jokeTitle + "..." + newJoke.jokeText
-    }).then(process.exit())
+    })
+    process.exit()
 }

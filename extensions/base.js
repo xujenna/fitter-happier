@@ -12,8 +12,8 @@ class Intervention {
     async execute() {
         const result = await this.trigger(this.marker, this.intervention, this.timestamp, this.prediction)
         console.log("execute " + result.title + ", " + result.script)
-        this.logIntervention(this.marker, this.intervention, this.timestamp, this.prediction, result)
-        textToSpeech.say(`${this.getScript(result.script)}`)
+        await this.logIntervention(this.marker, this.intervention, this.timestamp, this.prediction, result)
+        await textToSpeech.say(`${this.getScript(result.script)}`)
         return true
     }
 
@@ -22,7 +22,7 @@ class Intervention {
         // trigger intervention
     }
 
-    getScript(result) {
+    async getScript(result) {
         if(result)
             return result
         else
@@ -30,7 +30,7 @@ class Intervention {
         // return formatted script
     }
 
-    logIntervention(marker, intervention, timestamp, prediction, result){
+    async logIntervention(marker, intervention, timestamp, prediction, result){
         database.interventionsRef.push().set({
             timestamp: + timestamp,
             marker: marker,
