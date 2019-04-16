@@ -75,7 +75,7 @@ database.predictionsRef.orderByChild('timestamp').limitToLast(1).once('value', f
         let timestamp = newPost.timestamp;
         console.log(newPost)
 
-        if(fatiguePrediction > 3.3 && new Date().getHours() < 7){
+        if(fatiguePrediction > 3.5 && new Date().getHours() < 7){
             textToSpeech.say("You should go to sleep.")
             database.interventionsRef.push().set({
                 timestamp: + timestamp,
@@ -84,6 +84,7 @@ database.predictionsRef.orderByChild('timestamp').limitToLast(1).once('value', f
                 intervention: "oral sleep nudge",
                 content: "You should go to sleep."
             })
+            process.exit()
         }
         else if (fatiguePrediction > 3.3){
             selectIntervention("fatigue", fatiguePrediction, timestamp)
