@@ -10,7 +10,7 @@ var transporter = nodemailer.createTransport({
 });
 
 
-function emailContent(subject, text){
+async function emailContent(subject, text){
     let body = ""
     if(typeof text == "object"){
         text.forEach(d=>{
@@ -26,7 +26,7 @@ function emailContent(subject, text){
         subject: subject,
         text: body
       };
-    transporter.sendMail(mailOptions, function(error, info){
+    await transporter.sendMail(mailOptions, function(error, info){
         if (error) {
             console.log(error);
         } else {

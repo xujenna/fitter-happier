@@ -14,6 +14,7 @@ class Intervention {
         console.log("execute " + result.title + ", " + result.script)
         await this.logIntervention(this.marker, this.intervention, this.timestamp, this.prediction, result)
         const script = await this.getScript(result.script)
+        console.log(script)
         await textToSpeech.say(script)
         return true
     }
