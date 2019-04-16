@@ -118,8 +118,7 @@ function selectIntervention(marker, prediction, timestamp){
     let SelectedIntervention = Object.values(interventions[marker][selected])[0]
     let intervention = Object.keys(interventions[marker][selected])[0]
     const selectedIntervention = new SelectedIntervention(marker,intervention,timestamp,prediction)
-    selectedIntervention.execute()
-    process.exit()
+    selectedIntervention.execute().then(process.exit())
 }
 
 
