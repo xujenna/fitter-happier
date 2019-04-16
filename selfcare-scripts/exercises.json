@@ -78,6 +78,11 @@
             "title": "Deja Vu",
             "script" : ["Let's dance to Beyonce! Check your e-mail."],
             "link": "https://open.spotify.com/track/1DN9QmcCfImicRfZtHxHKH"
+        },
+        {
+            "title": "APES**T",
+            "script" : ["Let's dance to The Carters! Check your e-mail."],
+            "link": "https://www.youtube.com/watch?v=kbMqWXnpXcA&feature=youtu.be"
         }
     ]
 }
