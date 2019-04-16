@@ -87,7 +87,7 @@ database.predictionsRef.orderByChild('timestamp').limitToLast(1).once('value', a
             process.exit()
         }
         else if (fatiguePrediction > 3.3){
-            await selectIntervention("fatigue", fatiguePrediction, timestamp)
+            selectIntervention("fatigue", fatiguePrediction, timestamp)
         }
         else if(stressPrediction > 1.7){
             selectIntervention("stress", stressPrediction, timestamp)
