@@ -113,12 +113,13 @@ database.predictionsRef.orderByChild('timestamp').limitToLast(1).once('value', f
     }
 });
 
-function selectIntervention(marker, prediction, timestamp){
+async function selectIntervention(marker, prediction, timestamp){
     let selected = Math.round(Math.random() * (interventions[marker].length - 1))
     let SelectedIntervention = Object.values(interventions[marker][selected])[0]
     let intervention = Object.keys(interventions[marker][selected])[0]
     const selectedIntervention = new SelectedIntervention(marker,intervention,timestamp,prediction)
-    selectedIntervention.execute().then(process.exit())
+    await selectedIntervention.execute();
+    process.exit()
 }
 
 
