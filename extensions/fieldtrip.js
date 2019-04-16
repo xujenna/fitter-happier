@@ -19,7 +19,7 @@ class FieldTrip extends Intervention {
         let randCoords = randLat + "," + randLong;
         let randURL = url + randCoords;
 
-        emailer.emailContent("Time for a mini field trip!", randURL)
+        await emailer.emailContent("Time for a mini field trip!", randURL)
 
         let randPlaceInfo = {
             script: "Time for a mini field trip!",

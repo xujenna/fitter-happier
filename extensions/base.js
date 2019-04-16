@@ -13,7 +13,8 @@ class Intervention {
         const result = await this.trigger(this.marker, this.intervention, this.timestamp, this.prediction)
         console.log("execute " + result.title + ", " + result.script)
         await this.logIntervention(this.marker, this.intervention, this.timestamp, this.prediction, result)
-        await textToSpeech.say(`${this.getScript(result.script)}`)
+        const script = await this.getScript(result.script)
+        await textToSpeech.say(script)
         return true
     }
 

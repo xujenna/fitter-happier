@@ -23,7 +23,7 @@ class Exercises extends Intervention {
         else if(this.marker =="fatigue"){
             let randomIndex = Math.round(Math.random() * (exercises['danceTracks'].length- 1))
             let randomExercise = exercises['danceTracks'][randomIndex]
-            emailer.emailContent("Let's dance!", randomExercise.link)
+            await emailer.emailContent("Let's dance!", randomExercise.link)
             return randomExercise
         }
     }

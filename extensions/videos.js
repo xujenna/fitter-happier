@@ -13,14 +13,14 @@ class Videos extends Intervention {
             let randomIndex = Math.round(Math.random() * (videos['stress']['script'].length- 1))
             let randomVideo = videos['stress']['script'][randomIndex]
             vidInfo['title'] = randomVideo
-            emailer.emailContent("Something to calm you down :)", randomVideo)
+            await emailer.emailContent("Something to calm you down :)", randomVideo)
             return vidInfo
         }
         else if(this.marker =="morale" || this.marker =="fatigue"){
             let randomIndex = Math.round(Math.random() * (videos['morale']['script'].length- 1))
             let randomVideo = videos['morale']['script'][randomIndex]
             vidInfo['title'] = randomVideo
-            emailer.emailContent("Something to hype you up :)", randomVideo)
+            await emailer.emailContent("Something to hype you up :)", randomVideo)
             return vidInfo
         }
     }

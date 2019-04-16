@@ -22,7 +22,7 @@ class Interactions extends Intervention {
                 let randomNum = Math.round(Math.random() * (rituals['social']['questions'].length - 1))
                 let randomQ = rituals['social']['questions'][randomNum]
                 
-                emailer.emailContent("Ask someone this question", randomQ)
+                await emailer.emailContent("Ask someone this question", randomQ)
 
                 interactionInfo['title'] = `question: ${randomQ}`
                 interactionInfo['script'] = instructions + `ask this question: ${randomQ}`
@@ -42,10 +42,10 @@ class Interactions extends Intervention {
                     try {
                         let riddleTitle = json['data']['children'][shortRiddleIndices[randomShortIndex]]['data']['title']
                         let riddleText = json['data']['children'][shortRiddleIndices[randomShortIndex]]['data']['selftext']
-                        emailer.emailContent(riddleTitle, riddleText)
+                        await mailer.emailContent(riddleTitle, riddleText)
                         return riddleTitle + " " + riddleText
                     } catch (error) {
-                        emailer.emailContent("Share a random riddle", "https://www.reddit.com/r/riddles/")
+                        await emailer.emailContent("Share a random riddle", "https://www.reddit.com/r/riddles/")
                         return "Check your e-mail!"
                     }
                 })
@@ -67,10 +67,10 @@ class Interactions extends Intervention {
                     try {
                         let jokeTitle = json['data']['children'][shortJokeIndices[randomShortIndex]]['data']['title']
                         let jokeText = json['data']['children'][shortJokeIndices[randomShortIndex]]['data']['selftext']
-                        emailer.emailContent(jokeTitle, jokeText)
+                        await emailer.emailContent(jokeTitle, jokeText)
                         return jokeTitle + "... " + jokeText
                     } catch (error) {
-                        emailer.emailContent("Share a random joke", "https://www.reddit.com/r/Jokes/")
+                        await emailer.emailContent("Share a random joke", "https://www.reddit.com/r/Jokes/")
                         return "Check your e-mail!"
                     }
                 })
