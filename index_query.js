@@ -72,7 +72,7 @@ database.predictionsRef.orderByChild('timestamp').limitToLast(1).once('value', f
         let moodPrediction = newPost.LSTM_mood_prediction;
         let moralePrediction = newPost.LSTM_morale_prediction;
         let stressPrediction = newPost.LSTM_stress_prediction;
-        console.log(LSTM_fatigue_prediction)
+        console.log(newPost)
         consle.log(stressPrediction)
 
         // textToSpeech.say("Your fatigue prediction is " + (Math.round(fatiguePrediction * 100)/100) + ", mood is " + (Math.round(moodPrediction * 100)/100) + + ", morale is " + (Math.round(moralePrediction * 100)/100) + + ", stress is " + (Math.round(stressPrediction * 100)/100))
