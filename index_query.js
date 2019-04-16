@@ -52,7 +52,7 @@ let timestampJSON = JSON.parse(fs.readFileSync('lastReadTimestamps.json', 'utf8'
 let lastReadTimestamp = timestampJSON[timestampJSON.length -1]['lastPostedTimestamp']
 
 database.predictionsRef.orderByChild('timestamp').limitToLast(1).once('value', function(snapshot){
-    let newPost = snapshot.val();
+    let newPost = snapshot.val()[Object.keys(snapshot.val())];
     let lastPostedTimestamp = snapshot.val()[Object.keys(snapshot.val())].timestamp;
 
     if(lastPostedTimestamp == lastReadTimestamp){
@@ -73,7 +73,7 @@ database.predictionsRef.orderByChild('timestamp').limitToLast(1).once('value', f
         let moralePrediction = newPost.LSTM_morale_prediction;
         let stressPrediction = newPost.LSTM_stress_prediction;
         console.log(newPost)
-        consle.log(stressPrediction)
+        console.log(stressPrediction)
 
         // textToSpeech.say("Your fatigue prediction is " + (Math.round(fatiguePrediction * 100)/100) + ", mood is " + (Math.round(moodPrediction * 100)/100) + + ", morale is " + (Math.round(moralePrediction * 100)/100) + + ", stress is " + (Math.round(stressPrediction * 100)/100))
 
