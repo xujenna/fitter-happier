@@ -31,7 +31,7 @@ class Intervention {
     }
 
     async logIntervention(marker, intervention, timestamp, prediction, result){
-        database.interventionsRef.push().set({
+        await database.interventionsRef.push().set({
             timestamp: + timestamp,
             marker: marker,
             prediction: prediction,
