@@ -51,7 +51,7 @@ const interventions = {
 let timestampJSON = JSON.parse(fs.readFileSync('lastReadTimestamps.json', 'utf8'))
 let lastReadTimestamp = timestampJSON[timestampJSON.length -1]['lastPostedTimestamp']
 
-database.predictionsRef.orderByChild('timestamp').limitToLast(1).once('value', function(snapshot){
+database.predictionsRef.orderByChild('timestamp').limitToLast(1).once('value', async function(snapshot){
     let newPost = snapshot.val()[Object.keys(snapshot.val())];
     let lastPostedTimestamp = snapshot.val()[Object.keys(snapshot.val())].timestamp;
 
@@ -84,10 +84,10 @@ database.predictionsRef.orderByChild('timestamp').limitToLast(1).once('value', f
                 intervention: "oral sleep nudge",
                 content: "You should go to sleep."
             })
-            // process.exit()
+            process.exit()
         }
         else if (fatiguePrediction > 3.3){
-            selectIntervention("fatigue", fatiguePrediction, timestamp)
+            await selectIntervention("fatigue", fatiguePrediction, timestamp)
         }
         else if(stressPrediction > 1.7){
             selectIntervention("stress", stressPrediction, timestamp)
@@ -106,7 +106,7 @@ database.predictionsRef.orderByChild('timestamp').limitToLast(1).once('value', f
                 ritual: "random mindfulness",
                 content: "Your mood seems fine! But when was the last time you " + randomThing + "?"
             })
-            // process.exit()
+            process.exit()
         }
     }
 });
@@ -117,7 +117,7 @@ async function selectIntervention(marker, prediction, timestamp){
     let intervention = Object.keys(interventions[marker][selected])[0]
     const selectedIntervention = new SelectedIntervention(marker,intervention,timestamp,prediction)
     await selectedIntervention.execute();
-    // process.exit()
+    process.exit()
 }
 
 
@@ -143,7 +143,7 @@ async function getJoke(){
         return joke
     })
     textToSpeech.say("Tell someone this joke: " + newJoke.jokeTitle + "..." + newJoke.jokeText)
-    emailer.emailContent(newJoke.jokeTitle, newJoke.jokeText)
+    await emailer.emailContent(newJoke.jokeTitle, newJoke.jokeText)
 
     database.ritualsRef.push().set({
         timestamp: + new Date() / 1000,

@@ -20,19 +20,25 @@ function emailContent(subject, text){
     else{
         body = text
     }
+
     var mailOptions = {
         from: 'Fitter Happier <fitterhappierbot@gmail.com>',
         to: 'xujenna@gmail.com',
         subject: subject,
         text: body
-      };
-    transporter.sendMail(mailOptions, function(error, info){
-        if (error) {
-            console.log(error);
-        } else {
-            console.log('Email sent: ' + info.response);
-        }
-    });
+    };
+
+    return new Promise((resolve, reject) => {
+        transporter.sendMail(mailOptions, function(error, info){
+            if (error) {
+                console.log(error);
+                reject(error)
+            } else {
+                console.log('Email sent: ' + info.response);
+                resolve(info)
+            }
+        });
+    })
 }
 
 
