@@ -7,8 +7,8 @@ const textToSpeech = require('../modules/textToSpeech');
 class Meditations extends Intervention {
     async execute() {
         const result = await this.trigger(this.marker, this.intervention, this.timestamp, this.prediction)
-        this.logIntervention(this.marker, this.intervention, this.timestamp, this.prediction, result)
-        textToSpeech.say("Let's do a quick meditation.")
+        await this.logIntervention(this.marker, this.intervention, this.timestamp, this.prediction, result)
+        await textToSpeech.say("Let's do a quick meditation.")
         setTimeout(() => {
             player.play(("selfcare-scripts/meditation_recordings/" + this.marker + "/" + result.script), { aplay: ['-D', 'bluealsa:HCI=hci0,DEV=00:00:00:00:88:C8,PROFILE=a2dp'] });
         }, 3200);

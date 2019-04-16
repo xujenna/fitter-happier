@@ -18,14 +18,13 @@ class Seal extends Intervention {
             let randomIndex = Math.round(Math.random() * json.data.length)
             try {
                 let link = json['data'][randomIndex]['link']
-                await emailer.emailContent("Something to cheer you up :)", link)
                 return link
             } catch (error) {
                 let link = json['data'][randomIndex]['images'][0]['link']
-                await emailer.emailContent("Something to cheer you up :)", link)
                 return link
             }
         })
+    await emailer.emailContent("Something to cheer you up :)", gifLink)
     gifInfo['title'] = gifLink;
     return gifInfo
     }

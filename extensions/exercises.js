@@ -11,12 +11,12 @@ class Exercises extends Intervention {
                 case 0:
                     randomIndex = Math.round(Math.random() * (exercises['workouts'].length- 1))
                     randomExercise = exercises['workouts'][randomIndex]
-                    emailer.emailContent(randomExercise.title, randomExercise.script)
+                    await emailer.emailContent(randomExercise.title, randomExercise.script)
                     break;
                 case 1:
                     randomIndex = Math.round(Math.random() * (exercises['danceTracks'].length- 1))
                     randomExercise = exercises['danceTracks'][randomIndex]
-                    emailer.emailContent("Let's dance!", randomExercise.link)
+                    await emailer.emailContent("Let's dance!", randomExercise.link)
             }
             return randomExercise
         }
