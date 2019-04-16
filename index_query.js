@@ -74,9 +74,6 @@ database.predictionsRef.orderByChild('timestamp').limitToLast(1).once('value', f
         let stressPrediction = newPost.LSTM_stress_prediction;
         let timestamp = newPost.timestamp;
         console.log(newPost)
-        console.log(stressPrediction)
-
-        // textToSpeech.say("Your fatigue prediction is " + (Math.round(fatiguePrediction * 100)/100) + ", mood is " + (Math.round(moodPrediction * 100)/100) + + ", morale is " + (Math.round(moralePrediction * 100)/100) + + ", stress is " + (Math.round(stressPrediction * 100)/100))
 
         if(fatiguePrediction > 3.3 && new Date().getHours() < 7){
             textToSpeech.say("You should go to sleep.")
@@ -107,8 +104,7 @@ database.predictionsRef.orderByChild('timestamp').limitToLast(1).once('value', f
                 timestamp: + new Date() / 1000,
                 ritual: "random mindfulness",
                 content: "Your mood seems fine! But when was the last time you " + randomThing + "?"
-            })
-            process.exit()
+            }).then(process.exit());
         }
     }
 });
@@ -118,8 +114,7 @@ async function selectIntervention(marker, prediction, timestamp){
     let SelectedIntervention = Object.values(interventions[marker][selected])[0]
     let intervention = Object.keys(interventions[marker][selected])[0]
     const selectedIntervention = new SelectedIntervention(marker,intervention,timestamp,prediction)
-    await selectedIntervention.execute();
-    process.exit()
+    await selectedIntervention.execute().then(process.exit());
 }
 
 
@@ -151,6 +146,5 @@ async function getJoke(){
         timestamp: + new Date() / 1000,
         ritual: "random joke",
         content: newJoke.jokeTitle + "..." + newJoke.jokeText
-    })
-    process.exit()
+    }).then(process.exit())
 }
