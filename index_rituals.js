@@ -14,9 +14,20 @@ const player = require('play-sound')(opts = {})
 var sunTimes = SunCalc.getTimes(new Date(), 40.730808, -73.997461)
 setRitualAlarms(sunTimes)
 
+// re-schedule in the morning
+var sunTimesRule = new schedule.RecurrenceRule();
+sunTimesRule.hour = 8;
+sunTimesRule.minute = 45;
+
+schedule.scheduleJob(sunTimesRule, function(sunTimes) {
+    var sunTimes = SunCalc.getTimes(new Date(), 40.7, -74)
+    rituals.setRitualAlarms(sunTimes)
+});
+
 
 // Waking ritual
 if(new Date().getHours() > 7 && new Date().getHours() < 13){
+    console.log("good morning")
     getWeather();
     calendar.listEvents();
     setTimeout(() => {

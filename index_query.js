@@ -75,7 +75,7 @@ database.predictionsRef.orderByChild('timestamp').limitToLast(1).once('value', a
         let timestamp = newPost.timestamp;
         console.log(newPost)
 
-        if(fatiguePrediction > 4 && new Date().getHours() < 7){
+        if(fatiguePrediction > 3.75 && new Date().getHours() < 7){
             textToSpeech.say("You should go to sleep.")
             database.interventionsRef.push().set({
                 timestamp: + timestamp,
