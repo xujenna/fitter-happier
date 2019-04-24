@@ -11,6 +11,8 @@ var db = admin.database();
 var predictionsRef = db.ref("predictions");
 var interventionsRef = db.ref("interventions");
 var ritualsRef = db.ref("rituals");
+var runningMeanRef = db.ref("runningMean");
+
 
 // https://firebase.google.com/docs/database/admin/save-data
 
@@ -19,5 +21,6 @@ var ritualsRef = db.ref("rituals");
 module.exports = {
     predictionsRef: predictionsRef,
     interventionsRef: interventionsRef,
-    ritualsRef: ritualsRef
+    ritualsRef: ritualsRef,
+    runningMeanRef: runningMeanRef
 }

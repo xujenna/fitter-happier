@@ -9,6 +9,7 @@ class Interactions extends Intervention {
         let interactionInfo = {}
         const riddlesUrl = "https://www.reddit.com/r/riddles/top.json?sort=top&limit=100"
         const jokesUrl = "https://www.reddit.com/r/dadjokes/top.json?sort=top&limit=100"
+        const cuteFactUrl = "https://www.reddit.com/r/Awwducational/top.json?sort=top&limit=100"
 
         const directions = ["forward", "backward", "left", "right"];
         const instructions = "Take " + Math.round(Math.random() * 10) + " steps " + directions[(Math.round(Math.random() * (directions.length-1)))] + ", " + Math.round(Math.random() * 10) + " steps " + directions[Math.round(Math.random() * (directions.length-1))] + ", and "
@@ -32,13 +33,13 @@ class Interactions extends Intervention {
                 .then(res => res.json())
                 .then(json => {
                     let shortRiddleIndices = []
-                    for(var i = 0; i < 5; i++){
+                    for(var i = 0; i < 8; i++){
                         let randomIndex = Math.round(Math.random() * json['data']['children'].length)
                         if(json['data']['children'][randomIndex]['data']['selftext'].length < 350){
                             shortRiddleIndices.push(randomIndex)
                         }
                     }
-                    let randomShortIndex = Math.round(Math.random() * 4)
+                    let randomShortIndex = Math.round(Math.random() * (shortRiddleIndices.length - 1))
                     try {
                         let riddleTitle = json['data']['children'][shortRiddleIndices[randomShortIndex]]['data']['title']
                         let riddleText = json['data']['children'][shortRiddleIndices[randomShortIndex]]['data']['selftext']
@@ -52,34 +53,62 @@ class Interactions extends Intervention {
                 interactionInfo['title'] = `riddle: ${newRiddle}`
                 interactionInfo['script'] = instructions + `ask this riddle: ${newRiddle}`
                 break;
+            // case 3:
+            //     let newJoke = await fetch(jokesUrl)
+            //     .then(res => res.json())
+            //     .then(json => {
+            //         let shortJokeIndices = []
+            //         for(var i = 0; i < 5; i++){
+            //             let randomIndex = Math.round(Math.random() * json['data']['children'].length)
+            //             if(json['data']['children'][randomIndex]['data']['selftext'].length < 350){
+            //                 shortJokeIndices.push(randomIndex)
+            //             }
+            //         }
+            //         let randomShortIndex = Math.round(Math.random() * (shortJokeIndices.length - 1))
+            //         try {
+            //             let jokeTitle = json['data']['children'][shortJokeIndices[randomShortIndex]]['data']['title']
+            //             let jokeText = json['data']['children'][shortJokeIndices[randomShortIndex]]['data']['selftext']
+            //             emailer.emailContent(jokeTitle, jokeText)
+            //             return jokeTitle + "... " + jokeText
+            //         } catch (error) {
+            //             emailer.emailContent("Share a random joke", "https://www.reddit.com/r/Jokes/")
+            //             return "Check your e-mail!"
+            //         }
+            //     })
+            //     interactionInfo['title'] = `random joke: ${newJoke}`
+            //     interactionInfo['script'] = instructions + `tell them this joke: ${newJoke}`
+            //     break;
             case 3:
-                let newJoke = await fetch(jokesUrl)
+                let factInfo = await fetch(cuteFactUrl)
                 .then(res => res.json())
                 .then(json => {
-                    let shortJokeIndices = []
-                    for(var i = 0; i < 5; i++){
-                        let randomIndex = Math.round(Math.random() * json['data']['children'].length)
-                        if(json['data']['children'][randomIndex]['data']['selftext'].length < 350){
-                            shortJokeIndices.push(randomIndex)
-                        }
-                    }
-                    let randomShortIndex = Math.round(Math.random() * 4)
                     try {
-                        let jokeTitle = json['data']['children'][shortJokeIndices[randomShortIndex]]['data']['title']
-                        let jokeText = json['data']['children'][shortJokeIndices[randomShortIndex]]['data']['selftext']
-                        emailer.emailContent(jokeTitle, jokeText)
-                        return jokeTitle + "... " + jokeText
+                        let randomIndex = Math.round(Math.random() * 4)
+                        let fact = json['data']['children'][randomIndex]['data']['title']
+                        let subject;
+                        if(fact.length > 75){
+                            subject = fact.slice(0,50) + "..."
+                        }
+                        else{
+                            subject = fact
+                        }
+                        let imgLink = json['data']['children'][randomIndex]['data']['preview']['images'][0]['source']['url']
+                        let body = "<p>" + fact + "</p>" + "<p><img src='" + imgLink + "'></p>"
+                
+                        emailer.emailContent(subject, body)
+                
+                        interactionInfo['title'] = imgLink
+                        interactionInfo['script'] = fact + " Check your e-mail for pix!"
+                        return interactionInfo
+                        
                     } catch (error) {
-                        emailer.emailContent("Share a random joke", "https://www.reddit.com/r/Jokes/")
+                        console.log(error)
+                        emailer.emailContent("Share a random animal fact", "https://www.reddit.com/r/Awwducational")
                         return "Check your e-mail!"
                     }
                 })
-                interactionInfo['title'] = `random joke: ${newJoke}`
-                interactionInfo['script'] = instructions + `tell them this joke: ${newJoke}`
-                break;
-            case 4:
-                interactionInfo['title'] = "gratitude"
-                interactionInfo['script'] = `Add to your gratitude log`
+                interactionInfo['title'] = factInfo.title
+                interactionInfo['script'] = factInfo.script
             }
         return interactionInfo
     }

@@ -5,6 +5,7 @@ const textToSpeech = require('./modules/textToSpeech');
 const schedule = require('node-schedule');
 const rituals = require('./modules/rituals')
 const fetch = require("node-fetch");
+const fs = require('fs');
 
 textToSpeech.say("I'm awake now.")
 
@@ -51,6 +52,26 @@ const interventions = {
     ]
 }
 
+
+
+database.runningMeanRef.on('child_added', function(snapshot){
+    let newMeanPost = snapshot.val();
+    let runningMeanJSON = JSON.parse(fs.readFileSync('runningMean.json', 'utf8'))
+
+    let meanObj = {
+        totalMoodPred: newMeanPost.totalMoodPred,
+        totalMoralePred: newMeanPost.totalMoralePred,
+        totalStressPred: newMeanPost.totalStressPred,
+        totalFatiguePred: newMeanPost.totalFatiguePred,
+        totalPredictions: newMeanPost.totalPredictions
+    }
+
+    runningMeanJSON.push(meanObj)
+    runningMeanJSON = JSON.stringify(runningMeanJSON);
+    fs.writeFileSync('runningMean.json', runningMeanJSON, 'utf8')
+})
+
+
 database.predictionsRef.on("child_added", function(snapshot){
     let newPost = snapshot.val();
     let currentTime = + new Date();
@@ -63,8 +84,18 @@ database.predictionsRef.on("child_added", function(snapshot){
         let moodPrediction = newPost.LSTM_mood_prediction;
         let moralePrediction = newPost.LSTM_morale_prediction;
         let stressPrediction = newPost.LSTM_stress_prediction;
+        let runningMeanJSON = JSON.parse(fs.readFileSync('runningMean.json', 'utf8'))
 
-        if(fatiguePrediction > 3.3 && new Date().getHours() < 7){
+        let moodMean = runningMeanJSON[runningMeanJSON.length-1].totalMoodPred / runningMeanJSON[runningMeanJSON.length-1].totalPredictions
+        let moraleMean = runningMeanJSON[runningMeanJSON.length-1].totalMoralePred / runningMeanJSON[runningMeanJSON.length-1].totalPredictions
+        let stressMean = runningMeanJSON[runningMeanJSON.length-1].totalStressPred / runningMeanJSON[runningMeanJSON.length-1].totalPredictions
+        let fatigueMean = runningMeanJSON[runningMeanJSON.length-1].totalFatiguePred / runningMeanJSON[runningMeanJSON.length-1].totalPredictions
+        console.log("moodMean: " + moodMean)
+        console.log("moraleMean: " + moraleMean)
+        console.log("stressMean: " + stressMean)
+        console.log("fatigueMean: " + fatigueMean)
+
+        if(fatiguePrediction > (fatigueMean) && new Date().getHours() < 7){
             textToSpeech.say("You should go to sleep.")
             database.interventionsRef.push().set({
                 timestamp: + timestamp,
@@ -74,16 +105,16 @@ database.predictionsRef.on("child_added", function(snapshot){
                 content: "You should go to sleep."
             })
         }
-        else if (fatiguePrediction > 3.3){
+        else if (fatiguePrediction > (fatigueMean)){
             selectIntervention("fatigue", fatiguePrediction, timestamp)
         }
-        else if(stressPrediction > 1.7){
+        else if(stressPrediction > (stressMean)){
             selectIntervention("stress", stressPrediction, timestamp)
         }
-        else if(moralePrediction < 2.9){
+        else if(moralePrediction < (moraleMean)){
             selectIntervention("morale", moralePrediction, timestamp)
         }
-        else if(moodPrediction < 2.8){
+        else if(moodPrediction < (moodMean)){
             selectIntervention("mood", moodPrediction, timestamp)
         }
     }

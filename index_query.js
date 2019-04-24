@@ -48,12 +48,30 @@ const interventions = {
     ]
 }
 
-let timestampJSON = JSON.parse(fs.readFileSync('lastReadTimestamps.json', 'utf8'))
-let lastReadTimestamp = timestampJSON[timestampJSON.length -1]['lastPostedTimestamp']
+
+database.runningMeanRef.orderByChild('timestamp').limitToLast(1).once('value', async function(snapshot){
+    let newMeanPost = snapshot.val()[Object.keys(snapshot.val())];
+    let runningMeanJSON = JSON.parse(fs.readFileSync('runningMean.json', 'utf8'))
+
+    let meanObj = {
+        totalMoodPred: newMeanPost.totalMoodPred,
+        totalMoralePred: newMeanPost.totalMoralePred,
+        totalStressPred: newMeanPost.totalStressPred,
+        totalFatiguePred: newMeanPost.totalFatiguePred,
+        totalPredictions: newMeanPost.totalPredictions
+    }
+
+    runningMeanJSON.push(meanObj)
+    runningMeanJSON = JSON.stringify(runningMeanJSON);
+    fs.writeFileSync('runningMean.json', runningMeanJSON, 'utf8')
+})
+
 
 database.predictionsRef.orderByChild('timestamp').limitToLast(1).once('value', async function(snapshot){
     let newPost = snapshot.val()[Object.keys(snapshot.val())];
     let lastPostedTimestamp = snapshot.val()[Object.keys(snapshot.val())].timestamp;
+    let timestampJSON = JSON.parse(fs.readFileSync('lastReadTimestamps.json', 'utf8'))
+    let lastReadTimestamp = timestampJSON[timestampJSON.length -1]['lastPostedTimestamp']
 
     if(lastPostedTimestamp == lastReadTimestamp){
         textToSpeech.say("there's no new data.")
@@ -65,8 +83,17 @@ database.predictionsRef.orderByChild('timestamp').limitToLast(1).once('value', a
         }
         timestampJSON.push(obj)
         timestampJSON = JSON.stringify(timestampJSON);
-        console.log(timestampJSON)
         fs.writeFileSync('lastReadTimestamps.json', timestampJSON, 'utf8')
+
+        let runningMeanJSON = JSON.parse(fs.readFileSync('runningMean.json', 'utf8'))
+        let moodMean = runningMeanJSON[runningMeanJSON.length-1].totalMoodPred / runningMeanJSON[runningMeanJSON.length-1].totalPredictions
+        let moraleMean = runningMeanJSON[runningMeanJSON.length-1].totalMoralePred / runningMeanJSON[runningMeanJSON.length-1].totalPredictions
+        let stressMean = runningMeanJSON[runningMeanJSON.length-1].totalStressPred / runningMeanJSON[runningMeanJSON.length-1].totalPredictions
+        let fatigueMean = runningMeanJSON[runningMeanJSON.length-1].totalFatiguePred / runningMeanJSON[runningMeanJSON.length-1].totalPredictions
+        console.log("moodMean: " + moodMean)
+        console.log("moraleMean: " + moraleMean)
+        console.log("stressMean: " + stressMean)
+        console.log("fatigueMean: " + fatigueMean)
 
         let fatiguePrediction = newPost.LSTM_fatigue_prediction;
         let moodPrediction = newPost.LSTM_mood_prediction;
@@ -75,7 +102,7 @@ database.predictionsRef.orderByChild('timestamp').limitToLast(1).once('value', a
         let timestamp = newPost.timestamp;
         console.log(newPost)
 
-        if(fatiguePrediction > 3.75 && new Date().getHours() < 7){
+        if(fatiguePrediction > fatigueMean && new Date().getHours() < 7){
             textToSpeech.say("You should go to sleep.")
             database.interventionsRef.push().set({
                 timestamp: + timestamp,
@@ -86,16 +113,16 @@ database.predictionsRef.orderByChild('timestamp').limitToLast(1).once('value', a
             })
             process.exit()
         }
-        else if (fatiguePrediction > 3.3){
+        else if (fatiguePrediction > fatigueMean){
             selectIntervention("fatigue", fatiguePrediction, timestamp)
         }
-        else if(stressPrediction > 1.7){
+        else if(stressPrediction > stressMean){
             selectIntervention("stress", stressPrediction, timestamp)
         }
-        else if(moralePrediction < 2.9){
+        else if(moralePrediction < moraleMean){
             selectIntervention("morale", moralePrediction, timestamp)
         }
-        else if(moodPrediction < 2.8){
+        else if(moodPrediction < moodMean){
             selectIntervention("mood", moodPrediction, timestamp)
         }
         else{
@@ -113,7 +140,7 @@ database.predictionsRef.orderByChild('timestamp').limitToLast(1).once('value', a
 
 async function selectIntervention(marker, prediction, timestamp){
     let selected = Math.round(Math.random() * (interventions[marker].length - 1))
-    let SelectedIntervention = Object.values(interventions[marker][selected])[0]
+    let SelectedIntervention = Object.values(interventions[marker][selected]) [0]
     let intervention = Object.keys(interventions[marker][selected])[0]
     const selectedIntervention = new SelectedIntervention(marker,intervention,timestamp,prediction)
     await selectedIntervention.execute();

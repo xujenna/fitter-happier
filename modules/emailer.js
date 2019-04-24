@@ -14,7 +14,7 @@ function emailContent(subject, text){
     let body = ""
     if(typeof text == "object"){
         text.forEach(d=>{
-            body += (d + "\n")
+            body += (d + "<br>")
         })
     }
     else{
@@ -25,7 +25,7 @@ function emailContent(subject, text){
         from: 'Fitter Happier <fitterhappierbot@gmail.com>',
         to: 'xujenna@gmail.com',
         subject: subject,
-        text: body
+        html: body
     };
 
     return new Promise((resolve, reject) => {
