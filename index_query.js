@@ -64,6 +64,7 @@ database.runningMeanRef.orderByChild('timestamp').limitToLast(1).once('value', a
     runningMeanJSON.push(meanObj)
     runningMeanJSON = JSON.stringify(runningMeanJSON);
     fs.writeFileSync('runningMean.json', runningMeanJSON, 'utf8')
+    process.exit()
 })
 
 
@@ -177,5 +178,5 @@ async function getJoke(){
         ritual: "random joke",
         content: newJoke.jokeTitle + "..." + newJoke.jokeText
     })
-    // process.exit()
+    process.exit()
 }
