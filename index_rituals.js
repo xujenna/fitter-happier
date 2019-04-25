@@ -32,7 +32,7 @@ if(new Date().getHours() > 7 && new Date().getHours() < 13){
     calendar.listEvents();
     setTimeout(() => {
         textToSpeech.say("Please sit upright for your meditation.")
-        player.play(("selfcare-scripts/meditation_recordings/mood/LovingKindness.wav") , { aplay: ['-D', 'bluealsa:HCI=hci0,DEV=00:00:00:00:88:C8,PROFILE=a2dp'] });
+        player.play(("/home/pi/fitter-happier/selfcare-scripts/meditation_recordings/mood/LovingKindness.wav") , { aplay: ['-D', 'bluealsa:HCI=hci0,DEV=00:00:00:00:88:C8,PROFILE=a2dp'] });
     }, 30000);
 }
 
