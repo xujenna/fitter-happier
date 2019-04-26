@@ -109,7 +109,6 @@ database.predictionsRef.orderByChild('timestamp').limitToLast(1).once('value', a
         console.log(newPost)
 
         if(fatiguePrediction > fatigueMean && new Date().getHours() < 7){
-            textToSpeech.say("You should go to sleep.")
             database.interventionsRef.push().set({
                 timestamp: + timestamp,
                 marker: "fatigue",
@@ -117,6 +116,8 @@ database.predictionsRef.orderByChild('timestamp').limitToLast(1).once('value', a
                 intervention: "oral sleep nudge",
                 content: "You should go to sleep."
             })
+            textToSpeech.say("You should go to sleep.")
+
             process.exit()
         }
         else if (fatiguePrediction > fatigueMean){
@@ -133,12 +134,13 @@ database.predictionsRef.orderByChild('timestamp').limitToLast(1).once('value', a
         }
         else{
             let randomThing = selfCareThings["reminders"][Math.round(Math.random() * (selfCareThings["reminders"].length - 1))]
-            textToSpeech.say("Your mood seems fine! But when was the last time you " + randomThing + "?")
             database.ritualsRef.push().set({
                 timestamp: + new Date() / 1000,
                 ritual: "random mindfulness",
                 content: "Your mood seems fine! But when was the last time you " + randomThing + "?"
             })
+            textToSpeech.say("Your mood seems fine! But when was the last time you " + randomThing + "?")
+
             process.exit()
         }
     }
@@ -175,13 +177,13 @@ async function getJoke(){
         }
         return joke
     })
-    textToSpeech.say("Tell someone this joke: " + newJoke.jokeTitle + "..." + newJoke.jokeText)
-    await emailer.emailContent(newJoke.jokeTitle, newJoke.jokeText)
 
     database.ritualsRef.push().set({
         timestamp: + new Date() / 1000,
         ritual: "random joke",
         content: newJoke.jokeTitle + "..." + newJoke.jokeText
     })
+    textToSpeech.say("Tell someone this joke: " + newJoke.jokeTitle + "..." + newJoke.jokeText)
+    await emailer.emailContent(newJoke.jokeTitle, newJoke.jokeText)
     process.exit()
 }
