@@ -109,7 +109,7 @@ database.predictionsRef.orderByChild('timestamp').limitToLast(1).once('value', a
         console.log(newPost)
 
         if(fatiguePrediction > fatigueMean && new Date().getHours() < 7){
-            database.interventionsRef.push().set({
+            await database.interventionsRef.push().set({
                 timestamp: + timestamp,
                 marker: "fatigue",
                 prediction: fatiguePrediction,
@@ -134,7 +134,7 @@ database.predictionsRef.orderByChild('timestamp').limitToLast(1).once('value', a
         }
         else{
             let randomThing = selfCareThings["reminders"][Math.round(Math.random() * (selfCareThings["reminders"].length - 1))]
-            database.ritualsRef.push().set({
+            await database.ritualsRef.push().set({
                 timestamp: + new Date() / 1000,
                 ritual: "random mindfulness",
                 content: "Your mood seems fine! But when was the last time you " + randomThing + "?"
@@ -178,7 +178,7 @@ async function getJoke(){
         return joke
     })
 
-    database.ritualsRef.push().set({
+    await database.ritualsRef.push().set({
         timestamp: + new Date() / 1000,
         ritual: "random joke",
         content: newJoke.jokeTitle + "..." + newJoke.jokeText
