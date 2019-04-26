@@ -49,22 +49,22 @@ const interventions = {
 }
 
 
-database.runningMeanRef.orderByChild('timestamp').limitToLast(1).once('value', async function(snapshot){
-    let newMeanPost = snapshot.val()[Object.keys(snapshot.val())];
-    let runningMeanJSON = JSON.parse(fs.readFileSync('runningMean.json', 'utf8'))
+// database.runningMeanRef.orderByChild('timestamp').limitToLast(1).once('value', async function(snapshot){
+//     let newMeanPost = snapshot.val()[Object.keys(snapshot.val())];
+//     let runningMeanJSON = JSON.parse(fs.readFileSync('runningMean.json', 'utf8'))
 
-    let meanObj = {
-        totalMoodPred: newMeanPost.totalMoodPred,
-        totalMoralePred: newMeanPost.totalMoralePred,
-        totalStressPred: newMeanPost.totalStressPred,
-        totalFatiguePred: newMeanPost.totalFatiguePred,
-        totalPredictions: newMeanPost.totalPredictions
-    }
+//     let meanObj = {
+//         totalMoodPred: newMeanPost.totalMoodPred,
+//         totalMoralePred: newMeanPost.totalMoralePred,
+//         totalStressPred: newMeanPost.totalStressPred,
+//         totalFatiguePred: newMeanPost.totalFatiguePred,
+//         totalPredictions: newMeanPost.totalPredictions
+//     }
 
-    runningMeanJSON.push(meanObj)
-    runningMeanJSON = JSON.stringify(runningMeanJSON);
-    fs.writeFileSync('runningMean.json', runningMeanJSON, 'utf8')
-})
+//     runningMeanJSON.push(meanObj)
+//     runningMeanJSON = JSON.stringify(runningMeanJSON);
+//     fs.writeFileSync('runningMean.json', runningMeanJSON, 'utf8')
+// })
 
 
 database.predictionsRef.orderByChild('timestamp').limitToLast(1).once('value', async function(snapshot){
@@ -85,15 +85,21 @@ database.predictionsRef.orderByChild('timestamp').limitToLast(1).once('value', a
         timestampJSON = JSON.stringify(timestampJSON);
         fs.writeFileSync('lastReadTimestamps.json', timestampJSON, 'utf8')
 
-        let runningMeanJSON = JSON.parse(fs.readFileSync('runningMean.json', 'utf8'))
-        let moodMean = runningMeanJSON[runningMeanJSON.length-1].totalMoodPred / runningMeanJSON[runningMeanJSON.length-1].totalPredictions
-        let moraleMean = runningMeanJSON[runningMeanJSON.length-1].totalMoralePred / runningMeanJSON[runningMeanJSON.length-1].totalPredictions
-        let stressMean = runningMeanJSON[runningMeanJSON.length-1].totalStressPred / runningMeanJSON[runningMeanJSON.length-1].totalPredictions
-        let fatigueMean = runningMeanJSON[runningMeanJSON.length-1].totalFatiguePred / runningMeanJSON[runningMeanJSON.length-1].totalPredictions
-        console.log("moodMean: " + moodMean)
-        console.log("moraleMean: " + moraleMean)
-        console.log("stressMean: " + stressMean)
-        console.log("fatigueMean: " + fatigueMean)
+
+        // let runningMeanJSON = JSON.parse(fs.readFileSync('runningMean.json', 'utf8'))
+        // let moodMean = runningMeanJSON[runningMeanJSON.length-1].totalMoodPred / runningMeanJSON[runningMeanJSON.length-1].totalPredictions
+        // let moraleMean = runningMeanJSON[runningMeanJSON.length-1].totalMoralePred / runningMeanJSON[runningMeanJSON.length-1].totalPredictions
+        // let stressMean = runningMeanJSON[runningMeanJSON.length-1].totalStressPred / runningMeanJSON[runningMeanJSON.length-1].totalPredictions
+        // let fatigueMean = runningMeanJSON[runningMeanJSON.length-1].totalFatiguePred / runningMeanJSON[runningMeanJSON.length-1].totalPredictions
+        // console.log("moodMean: " + moodMean)
+        // console.log("moraleMean: " + moraleMean)
+        // console.log("stressMean: " + stressMean)
+        // console.log("fatigueMean: " + fatigueMean)
+
+        let moodMean = newPost.runningMean.totalMoodPred / newPost.runningMean.totalPredictions
+        let moraleMean = newPost.runningMean.totalMoralePred / newPost.runningMean.totalPredictions
+        let stressMean = newPost.runningMean.totalStressPred / newPost.runningMean.totalPredictions
+        let fatigueMean = newPost.runningMean.totalFatiguePred / newPost.runningMean.totalPredictions
 
         let fatiguePrediction = newPost.LSTM_fatigue_prediction;
         let moodPrediction = newPost.LSTM_mood_prediction;
