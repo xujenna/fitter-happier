@@ -147,11 +147,11 @@ async function getJoke(){
         return joke
     })
 
-    await database.ritualsRef.push().set({
-        timestamp: + new Date() / 1000,
-        ritual: "random joke",
-        content: newJoke.jokeTitle + "..." + newJoke.jokeText
-    })
+    // await database.ritualsRef.push().set({
+    //     timestamp: + new Date() / 1000,
+    //     ritual: "random joke",
+    //     content: newJoke.jokeTitle + "..." + newJoke.jokeText
+    // })
     textToSpeech.say("Tell someone this joke: " + newJoke.jokeTitle + "..." + newJoke.jokeText)
     await emailer.emailContent(newJoke.jokeTitle, newJoke.jokeText)
     process.exit()
@@ -159,11 +159,11 @@ async function getJoke(){
 
 async function getRandomReminder(){
     let randomThing = selfCareThings["reminders"][Math.round(Math.random() * (selfCareThings["reminders"].length - 1))]
-    await database.ritualsRef.push().set({
-        timestamp: + new Date() / 1000,
-        ritual: "random mindfulness",
-        content: "When was the last time you " + randomThing + "?"
-    })
+    // await database.ritualsRef.push().set({
+    //     timestamp: + new Date() / 1000,
+    //     ritual: "random mindfulness",
+    //     content: "When was the last time you " + randomThing + "?"
+    // })
     textToSpeech.say("When was the last time you " + randomThing + "?")
     process.exit()
 }
