@@ -91,6 +91,8 @@ function listEvents(auth) {
         textToSpeech.say(`At ${time} o'clock today, you have an event called: ${event.summary}`);
       });
     } else {
+      textToSpeech.say('there was nothing on your primary calendar for today.');
+
       console.log('No upcoming events found.');
     }
   });

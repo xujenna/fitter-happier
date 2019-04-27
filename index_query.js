@@ -8,6 +8,7 @@ const rituals = require('./modules/rituals')
 const fetch = require("node-fetch");
 const selfCareThings = require('./selfcare-scripts/selfCareThings.json')
 const emailer = require('./modules/emailer');
+const calendar = require('./modules/calendar')
 
 textToSpeech.say("I'm checking for data.")
 
@@ -88,6 +89,7 @@ database.predictionsRef.orderByChild('timestamp').limitToLast(1).once('value', a
                 content: "You should go to sleep."
             })
             textToSpeech.say("You should go to sleep.")
+            calendar.listEvents()
 
             process.exit()
         }

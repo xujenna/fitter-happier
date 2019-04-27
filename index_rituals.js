@@ -6,7 +6,8 @@ const database = require('./modules/datastore');
 const SunCalc = require('suncalc');
 const fetch = require("node-fetch");
 const calendar = require('./modules/calendar')
-const darkSky = require('./credentials/darksky.json')
+const weather = require('./modules/weather')
+
 const player = require('play-sound')(opts = {})
 
 // RITUALS
@@ -28,27 +29,12 @@ schedule.scheduleJob(sunTimesRule, function(sunTimes) {
 // Waking ritual
 if(new Date().getHours() > 7 && new Date().getHours() < 14){
     console.log("good morning")
-    getWeather();
+    weather.getWeather();
     calendar.listEvents();
     setTimeout(() => {
         textToSpeech.say("Please sit upright for your meditation.")
-        player.play(("/home/pi/fitter-happier/selfcare-scripts/meditation_recordings/mood/LovingKindness.wav") , { aplay: ['-D', 'bluealsa:HCI=hci0,DEV=00:00:00:00:88:C8,PROFILE=a2dp'] });
+        player.play(("selfcare-scripts/meditation_recordings/mood/LovingKindness.wav") , { aplay: ['-D', 'bluealsa:HCI=hci0,DEV=53:B7:C7:01:02:F2,PROFILE=a2dp'] });
     }, 30000);
-}
-
-async function getWeather(){
-    let url = "https://api.darksky.net/forecast/" + darkSky.key + "/40.730808,%20-73.997461"
-    let weatherInfo = await fetch(url)
-    .then(res => res.json())
-    .then(json => {
-        let weather = {
-            summary: json['hourly']['summary'],
-            temp: json['currently']['temperature'],
-            precipitation: json['currently']['precipProbability']
-        }
-        return weather
-    })
-    await textToSpeech.say("Good morning! The weather summary is: " + weatherInfo.summary + ". It is currently " + weatherInfo.temp + " degrees, with a " + weatherInfo.precipitation + "percent chance of rain.")
 }
 
 
@@ -76,6 +62,7 @@ function setRitualAlarms(sunTimes){
     console.log("sweet light: " + sweetLightRule.hour + ":"+sweetLightRule.minute)
     schedule.scheduleJob(sweetLightRule, function(){
         textToSpeech.say("Go out and meet your step goal.")
+        weather.getWeather();
         emailer.emailContent("Go out and meet your step goal.", "Do it!")
 
         database.ritualsRef.push().set({
