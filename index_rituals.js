@@ -30,7 +30,7 @@ schedule.scheduleJob(sunTimesRule, function(sunTimes) {
 if(new Date().getHours() > 7 && new Date().getHours() < 14){
     console.log("good morning")
     weather.getWeather();
-    calendar.listEvents();
+    calendar.readEvents();
     setTimeout(() => {
         textToSpeech.say("Please sit upright for your meditation.")
         player.play(("selfcare-scripts/meditation_recordings/mood/LovingKindness.wav") , { aplay: ['-D', 'bluealsa:HCI=hci0,DEV=53:B7:C7:01:02:F2,PROFILE=a2dp'] });

@@ -89,7 +89,7 @@ database.predictionsRef.orderByChild('timestamp').limitToLast(1).once('value', a
                 content: "You should go to sleep."
             })
             textToSpeech.say("You should go to sleep.")
-            calendar.listEvents()
+            calendar.readEvents()
 
             process.exit()
         }
