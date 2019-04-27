@@ -10,12 +10,12 @@ class Meditations extends Intervention {
         await this.logIntervention(this.marker, this.intervention, this.timestamp, this.prediction, result)
         await textToSpeech.say("Let's do a quick meditation.")
         setTimeout(() => {
-            player.play(("selfcare-scripts/meditation_recordings/" + this.marker + "/" + result.script), { aplay: ['-D', 'bluealsa:HCI=hci0,DEV=00:00:00:00:88:C8,PROFILE=a2dp'] });
+            player.play(("/home/pi/fitter-happier/selfcare-scripts/meditation_recordings/" + this.marker + "/" + result.script), { aplay: ['-D', 'bluealsa:HCI=hci0,DEV=53:B7:C7:01:02:F2,PROFILE=a2dp'] });
         }, 3200);
     }
 
     async trigger(){
-        let directory = "selfcare-scripts/meditation_recordings/"
+        let directory = "/home/pi/fitter-happier/selfcare-scripts/meditation_recordings/"
         let meditationInfo = {}
         let options = fs.readdirSync(directory + this.marker)
         let randomIndex = Math.round(Math.random() * (options.length- 1))
