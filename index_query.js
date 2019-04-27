@@ -75,7 +75,7 @@ database.predictionsRef.orderByChild('timestamp').limitToLast(1).once('value', a
 
     if(lastPostedTimestamp == lastReadTimestamp){
         textToSpeech.say("there's no new data.")
-        getJoke();
+        getRandomReminder();
     }
     else if(lastPostedTimestamp > lastReadTimestamp){
         let obj = {
@@ -133,15 +133,14 @@ database.predictionsRef.orderByChild('timestamp').limitToLast(1).once('value', a
             selectIntervention("mood", moodPrediction, timestamp)
         }
         else{
-            let randomThing = selfCareThings["reminders"][Math.round(Math.random() * (selfCareThings["reminders"].length - 1))]
-            await database.ritualsRef.push().set({
-                timestamp: + new Date() / 1000,
-                ritual: "random mindfulness",
-                content: "Your mood seems fine! But when was the last time you " + randomThing + "?"
-            })
-            textToSpeech.say("Your mood seems fine! But when was the last time you " + randomThing + "?")
-
-            process.exit()
+            // let randomThing = selfCareThings["reminders"][Math.round(Math.random() * (selfCareThings["reminders"].length - 1))]
+            // await database.ritualsRef.push().set({
+            //     timestamp: + new Date() / 1000,
+            //     ritual: "random mindfulness",
+            //     content: "Your mood seems fine! But when was the last time you " + randomThing + "?"
+            // })
+            textToSpeech.say("Your mood seems fine!")
+            getJoke();
         }
     }
 });
@@ -185,5 +184,16 @@ async function getJoke(){
     })
     textToSpeech.say("Tell someone this joke: " + newJoke.jokeTitle + "..." + newJoke.jokeText)
     await emailer.emailContent(newJoke.jokeTitle, newJoke.jokeText)
+    process.exit()
+}
+
+async function getRandomReminder(){
+    let randomThing = selfCareThings["reminders"][Math.round(Math.random() * (selfCareThings["reminders"].length - 1))]
+    await database.ritualsRef.push().set({
+        timestamp: + new Date() / 1000,
+        ritual: "random mindfulness",
+        content: "When was the last time you " + randomThing + "?"
+    })
+    textToSpeech.say("When was the last time you " + randomThing + "?")
     process.exit()
 }

@@ -26,7 +26,7 @@ schedule.scheduleJob(sunTimesRule, function(sunTimes) {
 
 
 // Waking ritual
-if(new Date().getHours() > 7 && new Date().getHours() < 13){
+if(new Date().getHours() > 7 && new Date().getHours() < 14){
     console.log("good morning")
     getWeather();
     calendar.listEvents();
