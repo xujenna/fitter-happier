@@ -125,7 +125,6 @@ async function selectIntervention(marker, prediction, timestamp){
     process.exit()
 }
 
-
 async function getJoke(){
     const url = "https://www.reddit.com/r/dadjokes/top.json?sort=top&limit=100"
 
