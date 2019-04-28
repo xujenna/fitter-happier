@@ -60,7 +60,7 @@ database.predictionsRef.orderByChild('timestamp').limitToLast(1).once('value', a
         textToSpeech.say("there's no new data.")
         getRandomReminder();
     }
-    else if(lastPostedTimestamp > lastReadTimestamp && (lastPostedTimestamp - lastReadTimestamp < 20000)){
+    else if(lastPostedTimestamp > lastReadTimestamp){
         let obj = {
             lastPostedTimestamp: lastPostedTimestamp
         }
