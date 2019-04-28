@@ -88,8 +88,8 @@ database.predictionsRef.orderByChild('timestamp').limitToLast(1).once('value', a
                 intervention: "oral sleep nudge",
                 content: "You should go to sleep."
             })
-            textToSpeech.say("You should go to sleep.")
-            calendar.readEvents()
+            await textToSpeech.say("You should go to sleep.")
+            await calendar.readEvents()
 
             process.exit()
         }

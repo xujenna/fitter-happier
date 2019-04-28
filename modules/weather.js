@@ -15,7 +15,7 @@ async function getWeather(){
         }
         return weather
     })
-    await textToSpeech.say("Good morning! The weather summary is: " + weatherInfo.summary + ". It is currently " + weatherInfo.temp + " degrees, with a " + weatherInfo.precipitation + "percent chance of rain.")
+    await textToSpeech.say("The weather summary is: " + weatherInfo.summary + ". It is currently " + weatherInfo.temp + " degrees, with a " + weatherInfo.precipitation + "percent chance of rain.")
 }
 
 module.exports = {

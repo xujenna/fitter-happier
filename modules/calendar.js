@@ -12,7 +12,7 @@ const SCOPES = ['https://www.googleapis.com/auth/calendar'];
 const TOKEN_PATH = 'token.json';
 
 // Load client secrets from a local file.
-function readEvents(){
+async function readEvents(){
   fs.readFile('./home-pi/credentials.json', (err, content) => {
     if (err) return console.log('Error loading client secret file:', err);
     // Authorize a client with credentials, then call the Google Calendar API.

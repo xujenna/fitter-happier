@@ -25,10 +25,10 @@ schedule.scheduleJob(sunTimesRule, function(sunTimes) {
     rituals.setRitualAlarms(sunTimes)
 });
 
+textToSpeech.say("I'm awake now.")
 
 // Waking ritual
 if(new Date().getHours() > 7 && new Date().getHours() < 14){
-    console.log("good morning")
     weather.getWeather();
     calendar.readEvents();
     setTimeout(() => {
@@ -46,6 +46,7 @@ function setRitualAlarms(sunTimes){
     console.log("sun salutation: " + sunSalutationRule.hour + ":"+sunSalutationRule.minute)
     schedule.scheduleJob(sunSalutationRule, function(){
         textToSpeech.say("Go out for your sun salutation.")
+        weather.getWeather();
         emailer.emailContent("Go out for your sun salutation.", "Do it!")
 
         database.ritualsRef.push().set({
